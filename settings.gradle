@@ -1,4 +1,0 @@
-rootProject.name = 'popool'
-include 'bbl-member'
-include 'bbl-common'
-
