@@ -1,0 +1,6 @@
+rootProject.name = 'MSA-OnlineWorkout'
+include 'owo-auth'
+include 'owo-member'
+include 'owo-payment'
+include 'owo-gateway'
+include 'owo-eureka'
