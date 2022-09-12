@@ -15,9 +15,19 @@ spring:
     name: owo-gateway
   cloud:
     gateway:
-      default-filters:
+      default-filters: #spring cloud gateway global filter
         - name: GlobalFilter
           args:
             baseMessage: Spring Cloud Gateway GlobalFilter
             preLogger: true
             postLogger: true
+      routes: #msa routing
+        - id: owo-member
+          uri: http//localhost:8001
+          predicates:
+            - Path=/members/**
+
+        - id: owo-payment
+          uri: http/localhost:8002
+          predicates:
+            - Path=/payments/**
