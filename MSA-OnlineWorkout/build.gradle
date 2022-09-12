@@ -4,18 +4,20 @@ plugins {
     id 'java'
 }
 
-group = 'kr.co'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+allprojects {
+    group = 'kr.co'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+
+    repositories {
+        mavenCentral()
+    }
+}
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
