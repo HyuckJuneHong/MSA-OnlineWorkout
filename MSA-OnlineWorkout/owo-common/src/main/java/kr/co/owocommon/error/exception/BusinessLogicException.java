@@ -1,6 +1,6 @@
-package error.exception;
+package kr.co.owocommon.error.exception;
 
-import error.model.ErrorCode;
+import kr.co.owocommon.error.model.ErrorCode;
 import lombok.Getter;
 
 @Getter

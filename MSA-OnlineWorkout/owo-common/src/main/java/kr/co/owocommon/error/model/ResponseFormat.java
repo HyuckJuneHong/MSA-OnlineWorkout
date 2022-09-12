@@ -1,4 +1,4 @@
-package error.model;
+package kr.co.owocommon.error.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

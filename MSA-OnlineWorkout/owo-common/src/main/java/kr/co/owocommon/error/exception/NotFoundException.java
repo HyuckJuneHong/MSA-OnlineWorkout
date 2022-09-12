@@ -1,4 +1,4 @@
-package error.exception;
+package kr.co.owocommon.error.exception;
 
 public class NotFoundException extends BusinessLogicException{
 

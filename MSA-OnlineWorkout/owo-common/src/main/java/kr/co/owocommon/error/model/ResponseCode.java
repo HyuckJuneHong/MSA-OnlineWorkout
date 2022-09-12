@@ -1,6 +1,6 @@
-package error.model;
+package kr.co.owocommon.error.model;
 
-import error.exception.BadRequestException;
+import kr.co.owocommon.error.exception.BadRequestException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

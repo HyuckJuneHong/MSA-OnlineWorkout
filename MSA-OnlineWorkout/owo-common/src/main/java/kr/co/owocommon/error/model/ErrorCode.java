@@ -1,4 +1,4 @@
-package error.model;
+package kr.co.owocommon.error.model;
 
 import lombok.Getter;
 
