@@ -27,7 +27,20 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+    //Erueka
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+ext {
+    set('springCloudVersion', "2021.0.3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {
