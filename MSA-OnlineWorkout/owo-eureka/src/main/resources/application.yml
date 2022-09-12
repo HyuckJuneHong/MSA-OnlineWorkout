@@ -1,0 +1,15 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: owo-discovery
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false #eureka? registry? ??? ? ??
+    fetch-registry: false       #registru? ?? ?? ??? ? ??
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}/eureka/
