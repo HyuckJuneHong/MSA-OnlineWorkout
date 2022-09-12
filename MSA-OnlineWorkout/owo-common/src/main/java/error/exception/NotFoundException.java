@@ -1,4 +1,8 @@
 package error.exception;
 
-public class NotFoundException {
+public class NotFoundException extends BusinessLogicException{
+
+    public NotFoundException(String domain){
+        super(String.format("Cannot find %s", domain));
+    }
 }
