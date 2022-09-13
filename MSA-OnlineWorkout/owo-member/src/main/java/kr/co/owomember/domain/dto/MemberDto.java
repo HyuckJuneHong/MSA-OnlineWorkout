@@ -14,7 +14,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class LOGIN{
-
         @ApiModelProperty(example = "userId")
         @NotBlank(message = "아이디를 입력해주세요")
         private String identity;
@@ -65,7 +64,7 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class UPDATE_MEMBER{
-        //TODO : ThreadLocal 미적용
+        //TODO : ThreadLocal 미적용 update member
         private String identity;
         private String name;
     }
@@ -74,7 +73,7 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class UPDATE_PASSWORD{
-        //TODO : ThreadLocal 미적용
+        //TODO : ThreadLocal 미적용 update password
         private String identity;
         private String oldPassword;
         private String newPassword;
@@ -85,7 +84,7 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class READ_MEMBER{
-        //TODO : ThreadLocal 미적용
+        //TODO : ThreadLocal 미적용 Read
         private String identity;
         private String name;
     }
@@ -94,6 +93,8 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class DELETE_MEMBER{
-        //TODO member delete
+        //TODO : ThreadLocal 미적용 Delete
+        private String identity;
+        private String password;
     }
 }

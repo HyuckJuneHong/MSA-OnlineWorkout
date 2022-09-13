@@ -77,7 +77,7 @@ public class MemberServiceImpl implements MemberService{
 
     /**
      * 회원 정보 조회
-     * @param identity
+     * @param identity 조회할 아이디
      * @return
      */
     @Override
@@ -90,6 +90,20 @@ public class MemberServiceImpl implements MemberService{
                 .identity(memberEntity.getIdentity())
                 .name(memberEntity.getName())
                 .build();
+    }
+
+    /**
+     * 회원 탈퇴
+     * @param member 탈퇴할 정보
+     */
+    @Override
+    public void delete(MemberDto.DELETE_MEMBER member) {
+        //TODO : ThreadLocal 미적용
+        MemberEntity memberEntity = memberRepository.findByIdentity(member.getIdentity())
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        checkPassword(memberEntity.getPassword(), member.getPassword());
+
+        memberRepository.delete(memberEntity);
     }
 
     /**

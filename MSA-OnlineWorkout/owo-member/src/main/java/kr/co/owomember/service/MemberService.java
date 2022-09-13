@@ -18,6 +18,9 @@ public interface MemberService {
     //get
     MemberDto.READ_MEMBER getMember(String identity);
 
+    //delete
+    void delete(MemberDto.DELETE_MEMBER member);
+
     //common
     void checkIdentity(String identity);
     void checkPassword(String password, String checkPassword);
