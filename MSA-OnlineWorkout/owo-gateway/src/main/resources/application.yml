@@ -1,5 +1,5 @@
 server:
-  port: 8010
+  port: 8000
 
 eureka:
   instance:
@@ -23,11 +23,10 @@ spring:
             postLogger: true
       routes: #msa routing
         - id: owo-member
-          uri: http//localhost:8001
+          uri: http://127.0.0.1:8001/
           predicates:
-            - Path=/members/**
-
+            - Path=/gateway/members/**
         - id: owo-payment
-          uri: http/localhost:8002
+          uri: http://127.0.0.1:8002/
           predicates:
-            - Path=/payments/**
+            - Path=/gateway/payments/**

@@ -11,8 +11,6 @@ configurations {
 }
 
 dependencies {
-    implementation project(path: ":owo-common")
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     compileOnly 'org.projectlombok:lombok'
@@ -21,7 +19,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    //Erueka
+    //Eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
 }
 
