@@ -1,5 +1,6 @@
 package kr.co.owomember.domain.entity;
 
+import kr.co.owomember.domain.dto.MemberDto;
 import kr.co.owomember.domain.shared.BaseEntity;
 import kr.co.owomember.domain.shared.enums.MemberRole;
 import lombok.AccessLevel;
@@ -38,5 +39,15 @@ public class MemberEntity extends BaseEntity {
         this.password = password;
         this.name = name;
         this.memberRole = memberRole;
+    }
+
+    public static MemberEntity of(MemberDto.CREATE_MEMBER member){
+        //TODO : Security 미적용
+        return MemberEntity.builder()
+                .identity(member.getIdentity())
+                .password(member.getPassword())
+                .name(member.getName())
+                .memberRole(MemberRole.of(member.getMemberRole()))
+                .build();
     }
 }

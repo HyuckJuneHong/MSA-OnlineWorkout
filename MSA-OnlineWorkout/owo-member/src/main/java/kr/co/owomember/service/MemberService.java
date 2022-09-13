@@ -19,6 +19,7 @@ public interface MemberService {
     MemberDto.READ_MEMBER getMember();
 
     //common
-    boolean checkIdentity(String identity);
+    void checkIdentity(String identity);
+    void checkSignUp(MemberDto.CREATE_MEMBER member);
 
 }

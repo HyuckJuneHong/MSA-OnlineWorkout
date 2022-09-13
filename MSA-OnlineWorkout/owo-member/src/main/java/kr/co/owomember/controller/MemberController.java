@@ -31,7 +31,7 @@ public class MemberController {
     @ApiOperation("회원가입")
     @PostMapping("/signUp")
     public ResponseFormat signUp(@RequestBody MemberDto.CREATE_MEMBER member){
-        //TODO: signUP
+        memberService.signUp(member);
         return ResponseFormat.ok();
     }
 

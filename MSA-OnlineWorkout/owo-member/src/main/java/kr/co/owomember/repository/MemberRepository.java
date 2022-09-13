@@ -1,4 +1,12 @@
 package kr.co.owomember.repository;
 
-public interface MemberRepository {
+import kr.co.owomember.domain.entity.MemberEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
+
+    //check
+    boolean existsByIdentity(String identity);
 }
