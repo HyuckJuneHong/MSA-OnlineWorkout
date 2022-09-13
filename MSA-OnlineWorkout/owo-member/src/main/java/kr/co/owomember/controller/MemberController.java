@@ -36,13 +36,6 @@ public class MemberController {
         return ResponseFormat.ok();
     }
 
-    @ApiOperation("아이디 중복 체크")
-    @PostMapping("/signUp/check")
-    public ResponseFormat<Boolean> checkIdentity(){
-        //TODO: check identity
-        return null;
-    }
-
     @ApiOperation("회원 정보 수정")
     @PutMapping("/update")
     public ResponseFormat update(@RequestBody @Valid MemberDto.UPDATE_MEMBER member){

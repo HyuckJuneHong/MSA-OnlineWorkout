@@ -24,6 +24,7 @@ public interface MemberService {
     //common
     void checkIdentity(String identity);
     void checkPassword(String password, String checkPassword);
+    void checkEncodePassword(String password, String encodePassword);
     void checkSignUp(MemberDto.CREATE_MEMBER member);
 
 }

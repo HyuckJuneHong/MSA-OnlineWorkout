@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -41,11 +42,10 @@ public class MemberEntity extends BaseEntity {
         this.memberRole = memberRole;
     }
 
-    public static MemberEntity of(MemberDto.CREATE_MEMBER member){
-        //TODO : Security 미적용
+    public static MemberEntity of(MemberDto.CREATE_MEMBER member, PasswordEncoder passwordEncoder){
         return MemberEntity.builder()
                 .identity(member.getIdentity())
-                .password(member.getPassword())
+                .password(passwordEncoder.encode(member.getPassword()))
                 .name(member.getName())
                 .memberRole(MemberRole.of(member.getMemberRole()))
                 .build();

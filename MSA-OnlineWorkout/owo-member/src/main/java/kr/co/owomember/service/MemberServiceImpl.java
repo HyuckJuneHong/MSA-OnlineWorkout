@@ -8,6 +8,7 @@ import kr.co.owomember.domain.dto.MemberDto;
 import kr.co.owomember.domain.entity.MemberEntity;
 import kr.co.owomember.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * 로그인
@@ -25,7 +27,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberDto.TOKEN login(MemberDto.LOGIN login) {
         MemberEntity memberEntity = memberRepository.findByIdentity(login.getIdentity())
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
-        checkPassword(memberEntity.getPassword(), login.getPassword());
+        checkEncodePassword(login.getPassword(), memberEntity.getPassword());
 
         //TODO : JWT 미적용
 
@@ -44,7 +46,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public void signUp(MemberDto.CREATE_MEMBER member) {
         checkSignUp(member);
-        memberRepository.save(MemberEntity.of(member));
+        memberRepository.save(MemberEntity.of(member, passwordEncoder));
     }
 
     /**
@@ -69,9 +71,10 @@ public class MemberServiceImpl implements MemberService{
         //TODO : ThreadLocal 미적용
         MemberEntity memberEntity = memberRepository.findByIdentity(password.getIdentity())
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
-        checkPassword(memberEntity.getPassword(), password.getOldPassword());
+
+        checkEncodePassword(password.getOldPassword(), memberEntity.getPassword());
         checkPassword(password.getNewPassword(), password.getCheckPassword());
-        memberEntity.updatePassword(password.getNewPassword());
+        memberEntity.updatePassword(passwordEncoder.encode(password.getNewPassword()));
         memberRepository.save(memberEntity);
     }
 
@@ -101,7 +104,7 @@ public class MemberServiceImpl implements MemberService{
         //TODO : ThreadLocal 미적용
         MemberEntity memberEntity = memberRepository.findByIdentity(member.getIdentity())
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
-        checkPassword(memberEntity.getPassword(), member.getPassword());
+        checkEncodePassword(member.getPassword(), memberEntity.getPassword());
 
         memberRepository.delete(memberEntity);
     }
@@ -118,13 +121,25 @@ public class MemberServiceImpl implements MemberService{
     }
 
     /**
-     * 비밀번호 체크(로그인 시, 회원가입 시 등)
+     * 비밀번호 체크
      * @param password 비밀번호
      * @param checkPassword 확인할 비밀번호
      */
     @Override
     public void checkPassword(String password, String checkPassword) {
         if(!password.equals(checkPassword)){
+            throw new BusinessLogicException(ErrorCode.WRONG_PASSWORD);
+        }
+    }
+
+    /**
+     * 암호화된 비밀번호 체크
+     * @param password 확인할 비밀번호
+     * @param encodePassword 암호화된비밀번호
+     */
+    @Override
+    public void checkEncodePassword(String password, String encodePassword) {
+        if(!passwordEncoder.matches(password, encodePassword)){
             throw new BusinessLogicException(ErrorCode.WRONG_PASSWORD);
         }
     }
