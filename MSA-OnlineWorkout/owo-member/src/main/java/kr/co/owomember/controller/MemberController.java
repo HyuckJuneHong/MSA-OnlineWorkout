@@ -1,6 +1,7 @@
 package kr.co.owomember.controller;
 
 import io.swagger.annotations.ApiOperation;
+import kr.co.owocommon.error.model.ResponseFormat;
 import kr.co.owomember.domain.dto.MemberDto;
 import kr.co.owomember.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -15,49 +16,57 @@ public class MemberController {
 
     @ApiOperation("login")
     @PostMapping("/login")
-    public void login(@RequestBody MemberDto.LOGIN login){
+    public ResponseFormat<MemberDto.TOKEN> login(@RequestBody MemberDto.LOGIN login){
         //TODO: login
-    }
-
-    @ApiOperation("회원가입")
-    @PostMapping("/signUp")
-    public void signUp(@RequestBody MemberDto.CREATE_MEMBER member){
-        //TODO: signUP
-    }
-
-    @ApiOperation("회원가입")
-    @PostMapping("/signUp/check")
-    public void checkIdentity(){
-        //TODO: check identity
-    }
-
-    @ApiOperation("회원 정보 수정")
-    @PutMapping("/update")
-    public void update(@RequestBody MemberDto.UPDATE_MEMBER member){
-        //TODO: update
-    }
-
-    @ApiOperation("비밀번호 수정")
-    @PutMapping("/update/password")
-    public void updatePassword(@RequestBody MemberDto.UPDATE_PASSWORD password){
-        //TODO: update Password
-    }
-
-    @ApiOperation("회원 정보 조회")
-    @GetMapping()
-    public void getMember(@RequestBody MemberDto.GET_MEMBER member){
-        //TODO: get Member
-    }
-
-    @ApiOperation("회원 삭제")
-    @DeleteMapping("/delete")
-    public void deleteMember(@RequestBody MemberDto.DELETE_MEMBER member){
-        //TODO: delete Member
+        return null;
     }
 
     @ApiOperation("AccessToken 재발급")
     @DeleteMapping("/refresh")
-    public void resetAccessToken(){
+    public ResponseFormat<MemberDto.TOKEN> reCreateAccessToken(){
         //TODO: Access Token Reset
+        return null;
+    }
+
+    @ApiOperation("회원가입")
+    @PostMapping("/signUp")
+    public ResponseFormat signUp(@RequestBody MemberDto.CREATE_MEMBER member){
+        //TODO: signUP
+        return ResponseFormat.ok();
+    }
+
+    @ApiOperation("아이디 중복 체크")
+    @PostMapping("/signUp/check")
+    public ResponseFormat<Boolean> checkIdentity(){
+        //TODO: check identity
+        return null;
+    }
+
+    @ApiOperation("회원 정보 수정")
+    @PutMapping("/update")
+    public ResponseFormat update(@RequestBody MemberDto.UPDATE_MEMBER member){
+        //TODO: update
+        return ResponseFormat.ok();
+    }
+
+    @ApiOperation("비밀번호 수정")
+    @PutMapping("/update/password")
+    public ResponseFormat updatePassword(@RequestBody MemberDto.UPDATE_PASSWORD password){
+        //TODO: update Password
+        return ResponseFormat.ok();
+    }
+
+    @ApiOperation("회원 정보 조회")
+    @GetMapping()
+    public ResponseFormat<MemberDto.READ_MEMBER> getMember(){
+        //TODO: get Member
+        return null;
+    }
+
+    @ApiOperation("회원 삭제")
+    @DeleteMapping("/delete")
+    public ResponseFormat deleteMember(@RequestBody MemberDto.DELETE_MEMBER member){
+        //TODO: delete Member
+        return ResponseFormat.ok();
     }
 }

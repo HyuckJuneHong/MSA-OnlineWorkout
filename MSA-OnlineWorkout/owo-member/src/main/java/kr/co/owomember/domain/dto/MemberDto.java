@@ -16,6 +16,13 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     @Builder
+    public static class TOKEN{
+        //TODO token create
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
     public static class CREATE_MEMBER{
         //TODO member create
     }
@@ -37,8 +44,8 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     @Builder
-    public static class GET_MEMBER{
-        //TODO member get
+    public static class READ_MEMBER{
+        //TODO member read
     }
 
     @Getter
