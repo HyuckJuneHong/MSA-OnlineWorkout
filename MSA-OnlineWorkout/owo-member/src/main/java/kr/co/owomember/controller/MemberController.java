@@ -17,8 +17,7 @@ public class MemberController {
     @ApiOperation("login")
     @PostMapping("/login")
     public ResponseFormat<MemberDto.TOKEN> login(@RequestBody MemberDto.LOGIN login){
-        //TODO: login
-        return null;
+        return ResponseFormat.ok(memberService.login(login));
     }
 
     @ApiOperation("AccessToken 재발급")

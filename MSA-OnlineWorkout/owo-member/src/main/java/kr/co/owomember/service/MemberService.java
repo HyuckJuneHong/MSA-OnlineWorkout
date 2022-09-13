@@ -20,6 +20,7 @@ public interface MemberService {
 
     //common
     void checkIdentity(String identity);
+    void checkPassword(String password, String checkPassword);
     void checkSignUp(MemberDto.CREATE_MEMBER member);
 
 }

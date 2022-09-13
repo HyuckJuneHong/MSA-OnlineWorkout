@@ -14,14 +14,25 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class LOGIN{
-        //TODO login
+
+        @ApiModelProperty(example = "userId")
+        @NotBlank(message = "아이디를 입력해주세요")
+        private String identity;
+
+        @ApiModelProperty(example = "userPw")
+        @NotBlank(message = "아이디를 입력해주세요")
+        private String password;
     }
 
     @Getter
     @AllArgsConstructor
     @Builder
     public static class TOKEN{
-        //TODO token create
+        @ApiModelProperty(example = "사용자 인증을 위한 accessToken")
+        private String accessToken;
+
+        @ApiModelProperty(example = "자동 로그인을 위한 refreshToken")
+        private String refreshToken;
     }
 
     @Getter
