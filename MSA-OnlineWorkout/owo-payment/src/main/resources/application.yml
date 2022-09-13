@@ -5,6 +5,10 @@ spring:
   application:
     name: owo-payment
 
+  mvc: #swagger ?? ??
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
     hikari:
       driver-class-name: com.mysql.cj.jdbc.Driver
