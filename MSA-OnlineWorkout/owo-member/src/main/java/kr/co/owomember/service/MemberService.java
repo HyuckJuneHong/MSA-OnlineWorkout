@@ -16,7 +16,7 @@ public interface MemberService {
     void updatePassword(MemberDto.UPDATE_PASSWORD password);
 
     //get
-    MemberDto.READ_MEMBER getMember();
+    MemberDto.READ_MEMBER getMember(String identity);
 
     //common
     void checkIdentity(String identity);

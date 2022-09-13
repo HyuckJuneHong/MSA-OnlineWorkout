@@ -7,6 +7,8 @@ import kr.co.owomember.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/gateway/members")
 @RequiredArgsConstructor
@@ -16,7 +18,7 @@ public class MemberController {
 
     @ApiOperation("login")
     @PostMapping("/login")
-    public ResponseFormat<MemberDto.TOKEN> login(@RequestBody MemberDto.LOGIN login){
+    public ResponseFormat<MemberDto.TOKEN> login(@RequestBody @Valid MemberDto.LOGIN login){
         return ResponseFormat.ok(memberService.login(login));
     }
 
@@ -29,7 +31,7 @@ public class MemberController {
 
     @ApiOperation("회원가입")
     @PostMapping("/signUp")
-    public ResponseFormat signUp(@RequestBody MemberDto.CREATE_MEMBER member){
+    public ResponseFormat signUp(@RequestBody @Valid MemberDto.CREATE_MEMBER member){
         memberService.signUp(member);
         return ResponseFormat.ok();
     }
@@ -43,23 +45,22 @@ public class MemberController {
 
     @ApiOperation("회원 정보 수정")
     @PutMapping("/update")
-    public ResponseFormat update(@RequestBody MemberDto.UPDATE_MEMBER member){
+    public ResponseFormat update(@RequestBody @Valid MemberDto.UPDATE_MEMBER member){
         memberService.update(member);
         return ResponseFormat.ok();
     }
 
     @ApiOperation("비밀번호 수정")
     @PutMapping("/update/password")
-    public ResponseFormat updatePassword(@RequestBody MemberDto.UPDATE_PASSWORD password){
+    public ResponseFormat updatePassword(@RequestBody @Valid MemberDto.UPDATE_PASSWORD password){
         memberService.updatePassword(password);
         return ResponseFormat.ok();
     }
 
     @ApiOperation("회원 정보 조회")
     @GetMapping()
-    public ResponseFormat<MemberDto.READ_MEMBER> getMember(){
-        //TODO: get Member
-        return null;
+    public ResponseFormat<MemberDto.READ_MEMBER> getMember(@RequestParam("identity") String identity){
+        return ResponseFormat.ok(memberService.getMember(identity));
     }
 
     @ApiOperation("회원 삭제")

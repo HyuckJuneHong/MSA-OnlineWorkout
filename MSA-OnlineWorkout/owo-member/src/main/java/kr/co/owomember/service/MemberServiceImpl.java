@@ -75,9 +75,21 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(memberEntity);
     }
 
+    /**
+     * 회원 정보 조회
+     * @param identity
+     * @return
+     */
     @Override
-    public MemberDto.READ_MEMBER getMember() {
-        return null;
+    public MemberDto.READ_MEMBER getMember(String identity) {
+        //TODO : ThreadLocal 미적용
+        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+
+        return MemberDto.READ_MEMBER.builder()
+                .identity(memberEntity.getIdentity())
+                .name(memberEntity.getName())
+                .build();
     }
 
     /**

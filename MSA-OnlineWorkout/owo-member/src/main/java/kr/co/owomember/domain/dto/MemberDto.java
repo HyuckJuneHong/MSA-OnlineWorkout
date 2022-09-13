@@ -85,7 +85,9 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class READ_MEMBER{
-        //TODO member read
+        //TODO : ThreadLocal 미적용
+        private String identity;
+        private String name;
     }
 
     @Getter
