@@ -50,4 +50,12 @@ public class MemberEntity extends BaseEntity {
                 .memberRole(MemberRole.of(member.getMemberRole()))
                 .build();
     }
+
+    public void updateName(String name){
+        this.name = name;
+    }
+
+    public void updatePassword(String password){
+        this.password = password;
+    }
 }

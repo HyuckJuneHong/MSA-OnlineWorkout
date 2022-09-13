@@ -47,14 +47,32 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(MemberEntity.of(member));
     }
 
+    /**
+     * 회원 정보 변경
+     * @param member 변경할 회원의 정보
+     */
     @Override
     public void update(MemberDto.UPDATE_MEMBER member) {
-
+        //TODO : ThreadLocal 미적용
+        MemberEntity memberEntity = memberRepository.findByIdentity(member.getIdentity())
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        memberEntity.updateName(member.getName());
+        memberRepository.save(memberEntity);
     }
 
+    /**
+     * 비밀번호 변경
+     * @param password : 변경할 비밀번호 정보
+     */
     @Override
     public void updatePassword(MemberDto.UPDATE_PASSWORD password) {
-
+        //TODO : ThreadLocal 미적용
+        MemberEntity memberEntity = memberRepository.findByIdentity(password.getIdentity())
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        checkPassword(memberEntity.getPassword(), password.getOldPassword());
+        checkPassword(password.getNewPassword(), password.getCheckPassword());
+        memberEntity.updatePassword(password.getNewPassword());
+        memberRepository.save(memberEntity);
     }
 
     @Override

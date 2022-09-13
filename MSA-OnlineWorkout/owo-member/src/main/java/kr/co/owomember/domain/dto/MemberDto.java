@@ -65,14 +65,20 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class UPDATE_MEMBER{
-        //TODO member update
+        //TODO : ThreadLocal 미적용
+        private String identity;
+        private String name;
     }
 
     @Getter
     @AllArgsConstructor
     @Builder
     public static class UPDATE_PASSWORD{
-        //TODO member pw update
+        //TODO : ThreadLocal 미적용
+        private String identity;
+        private String oldPassword;
+        private String newPassword;
+        private String checkPassword;
     }
 
     @Getter

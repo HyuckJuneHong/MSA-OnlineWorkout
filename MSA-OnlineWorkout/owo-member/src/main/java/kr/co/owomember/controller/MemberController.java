@@ -44,14 +44,14 @@ public class MemberController {
     @ApiOperation("회원 정보 수정")
     @PutMapping("/update")
     public ResponseFormat update(@RequestBody MemberDto.UPDATE_MEMBER member){
-        //TODO: update
+        memberService.update(member);
         return ResponseFormat.ok();
     }
 
     @ApiOperation("비밀번호 수정")
     @PutMapping("/update/password")
     public ResponseFormat updatePassword(@RequestBody MemberDto.UPDATE_PASSWORD password){
-        //TODO: update Password
+        memberService.updatePassword(password);
         return ResponseFormat.ok();
     }
 
