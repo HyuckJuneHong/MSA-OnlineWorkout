@@ -1,4 +1,9 @@
 package kr.co.owocommon.error.jwt;
 
-public class JwtTokenExpiredException {
+import kr.co.owocommon.error.exception.BusinessLogicException;
+
+public class JwtTokenExpiredException extends BusinessLogicException {
+    public JwtTokenExpiredException() {
+        super("JWT TOken Expired");
+    }
 }

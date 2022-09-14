@@ -18,15 +18,41 @@ spring:
       default-filters: #spring cloud gateway global filter
         - name: GlobalFilter
           args:
-            baseMessage: Spring Cloud Gateway GlobalFilter
-            preLogger: true
-            postLogger: true
+            - baseMessage: Spring Cloud Gateway GlobalFilter
+              preLogger: true
+              postLogger: true
       routes: #msa routing
         - id: owo-member
           uri: http://127.0.0.1:8001/
           predicates:
+            - Path=/gateway/members/login
+            - Method=POST
+          filters:
+            - name: MemberFilter
+              args:
+                - baseMessage: Spring CLoud MemberFilter
+                  preLogger: true
+                  postLogger: true
+
+        - id: owo-member
+          uri: http://127.0.0.1:8001/
+          predicates:
             - Path=/gateway/members/**
+            - Method=GET
+          filters:
+            - name: AuthorizationHeadersFilter
+              args:
+                - baseMessage: Spring CLoud AuthorizationHeadersFilter
+                  preLogger: true
+                  postLogger: true
+
         - id: owo-payment
           uri: http://127.0.0.1:8002/
           predicates:
             - Path=/gateway/payments/**
+          filters:
+            - name: PaymentFilter
+              args:
+                - baseMessage: Spring Cloud PaymentFilter
+                  preLogger: true
+                  postLogger: true
