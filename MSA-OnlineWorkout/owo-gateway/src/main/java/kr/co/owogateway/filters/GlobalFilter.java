@@ -23,7 +23,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<FilterConfig> {
     }
 
     @Override
-    public GatewayFilter apply(FilterConfig filterConfig) {
+    public GatewayFilter apply(final FilterConfig filterConfig) {
         return ((exchange,chain) ->{
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
