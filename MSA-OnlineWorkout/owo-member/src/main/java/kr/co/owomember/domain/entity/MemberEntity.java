@@ -31,11 +31,15 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private MemberRole memberRole;
 
+    @Column(name = "refresh_token", length = 600)
+    private String refreshToken;
+
     @Builder
     public MemberEntity(String identity,
                         String password,
                         String name,
                         MemberRole memberRole) {
+
         this.identity = identity;
         this.password = password;
         this.name = name;
@@ -57,5 +61,9 @@ public class MemberEntity extends BaseEntity {
 
     public void updatePassword(String password){
         this.password = password;
+    }
+
+    public void updateRefreshToken(String refreshToken){
+        this.refreshToken = refreshToken;
     }
 }

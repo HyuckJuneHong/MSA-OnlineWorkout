@@ -37,8 +37,19 @@ public class MemberDto {
     @Getter
     @AllArgsConstructor
     @Builder
-    public static class CREATE_MEMBER{
+    public static class RE_TOKEN{
+        //TODO : ThreadLocal 미적용 update RefreshToken
+        private String identity;
 
+        @ApiModelProperty(example = "자동 로그인을 위한 refreshToken")
+        private String refreshToken;
+    }
+
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class CREATE_MEMBER{
         @ApiModelProperty(example = "userId")
         @NotBlank(message = "아이디를 입력하세요.")
         private String identity;

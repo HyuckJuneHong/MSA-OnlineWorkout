@@ -24,9 +24,8 @@ public class MemberController {
 
     @ApiOperation("AccessToken 재발급")
     @DeleteMapping("/refresh")
-    public ResponseFormat<MemberDto.TOKEN> reCreateAccessToken(){
-        //TODO: Access Token Reset
-        return null;
+    public ResponseFormat<MemberDto.TOKEN> reCreateAccessToken(@RequestHeader("token") String refreshToken){
+        return ResponseFormat.ok(memberService.reCreateAccessToken(refreshToken));
     }
 
     @ApiOperation("회원가입")
@@ -58,7 +57,7 @@ public class MemberController {
 
     @ApiOperation("회원 삭제")
     @DeleteMapping("/delete")
-    public ResponseFormat deleteMember(@RequestBody MemberDto.DELETE_MEMBER member){
+    public ResponseFormat deleteMember(@RequestBody @Valid MemberDto.DELETE_MEMBER member){
         memberService.delete(member);
         return ResponseFormat.ok();
     }

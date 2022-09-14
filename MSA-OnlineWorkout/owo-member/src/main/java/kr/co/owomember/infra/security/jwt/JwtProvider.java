@@ -3,7 +3,9 @@ package kr.co.owomember.infra.security.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import kr.co.owocommon.error.exception.NotFoundException;
 import kr.co.owocommon.error.exception.UserDefineException;
+import kr.co.owomember.domain.entity.MemberEntity;
 import kr.co.owomember.domain.shared.enums.MemberRole;
 import kr.co.owomember.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -113,5 +115,38 @@ public class JwtProvider {
                 .compact();
     }
 
-    //TODO RefreshToken으로 AccessToken 만드는 메서드
+    /**
+     * RefreshToken 을 이용하여 AccessToken 을 만들어내는 메서드
+     * @param refreshToken 사용자의 RefreshToken
+     * @return 사용자의 새로운 AccessToken
+     */
+    public String reCreateAccessToken(String refreshToken){
+        MemberEntity member = findMemberByToken(refreshToken);
+
+        return createAccessToken(member.getIdentity(), member.getMemberRole(), member.getName());
+    }
+
+    /**
+     * 토큰을 통해 MemberMstEntity 객체를 가져오는 메서드
+     * @param token : 토큰
+     * @return : jwt 토큰을 통해 찾은 MemberMstEntity 객체
+     * @Exception UserNotFoundException : 해당 회원을 찾을 수 없는 경우 발생하는 예외
+     */
+    public MemberEntity findMemberByToken(String token){
+        return memberRepository.findByIdentity(findIdentityByToken(token))
+                .orElseThrow(() -> new NotFoundException("MemberEntity"));
+    }
+
+    /**
+     * 토큰을 이용하여 사용자 아이디를 찾는 메서드
+     * @param token 토큰
+     * @return 사용자의 아이디
+     */
+    public String findIdentityByToken(String token){
+        return (String) Jwts.parser()
+                .setSigningKey(generateKey())
+                .parseClaimsJws(token)
+                .getBody()
+                .get(MEMBER_IDENTITY);
+    }
 }

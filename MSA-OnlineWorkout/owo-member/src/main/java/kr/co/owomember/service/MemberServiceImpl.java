@@ -6,6 +6,7 @@ import kr.co.owocommon.error.exception.DuplicatedException;
 import kr.co.owocommon.error.model.ErrorCode;
 import kr.co.owomember.domain.dto.MemberDto;
 import kr.co.owomember.domain.entity.MemberEntity;
+import kr.co.owomember.infra.security.jwt.JwtProvider;
 import kr.co.owomember.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,7 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     /**
      * 로그인
@@ -29,14 +31,24 @@ public class MemberServiceImpl implements MemberService{
                 .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
         checkEncodePassword(login.getPassword(), memberEntity.getPassword());
 
-        //TODO : JWT 미적용
+        String[] tokens = generateToken(memberEntity);
+        memberEntity.updateRefreshToken(tokens[1]);
+        memberRepository.save(memberEntity);
 
-        return new MemberDto.TOKEN("accessToken", "refreshToken");
+        return new MemberDto.TOKEN(tokens[0], tokens[1]);
     }
 
     @Override
     public MemberDto.TOKEN reCreateAccessToken(String refreshToken) {
-        return null;
+        //TODO : ThreadLocal 미적용
+        MemberEntity memberEntity = memberRepository.findByIdentity("")
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+
+        String[] tokens = generateToken(memberEntity);
+        memberEntity.updateRefreshToken(tokens[1]);
+        memberRepository.save(memberEntity);
+
+        return new MemberDto.TOKEN(tokens[0], tokens[1]);
     }
 
     /**
@@ -156,11 +168,14 @@ public class MemberServiceImpl implements MemberService{
 
     /**
      * 토큰 생성
-     * @param memberEntity
+     * @param member : 토큰 생성할 회원
      * @return
      */
-    private String[] generateToken(MemberEntity memberEntity){
-        //TODO : token create
-        return null;
+    private String[] generateToken(MemberEntity member){
+        String accessToken = jwtProvider
+                .createAccessToken(member.getIdentity(), member.getMemberRole(), member.getName());
+        String refreshToken = jwtProvider
+                .createRefreshToken(member.getIdentity(), member.getMemberRole(), member.getName());
+        return new String[]{accessToken, refreshToken};
     }
 }
