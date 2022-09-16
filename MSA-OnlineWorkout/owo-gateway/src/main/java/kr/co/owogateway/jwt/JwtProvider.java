@@ -10,6 +10,8 @@ import kr.co.owocommon.error.jwt.JwtTokenInvalidException;
 import kr.co.owogateway.jwt.enums.MemberRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +20,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
@@ -77,6 +81,14 @@ public class JwtProvider {
         return Optional.of(request.getHeaders()
                 .get("Authorization").get(0)
                 .replace("Bearer", "").trim());
+    }
+
+    //TODO 과연 이게 필요한것일까?
+    public Mono<Void> onError(ServerWebExchange exchange, String error, HttpStatus httpStatus){
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(httpStatus);
+        log.error(error);
+        return response.setComplete();
     }
 
     /**
