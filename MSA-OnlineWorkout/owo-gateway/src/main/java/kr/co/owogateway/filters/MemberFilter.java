@@ -1,6 +1,6 @@
 package kr.co.owogateway.filters;
 
-import kr.co.owogateway.config.FilterConfig;
+import kr.co.owogateway.config.ConfigDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -11,26 +11,26 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
-public class MemberFilter extends AbstractGatewayFilterFactory<FilterConfig> {
+public class MemberFilter extends AbstractGatewayFilterFactory<ConfigDto> {
 
     public MemberFilter() {
-        super(FilterConfig.class);
+        super(ConfigDto.class);
     }
 
     @Override
-    public GatewayFilter apply(final FilterConfig filterConfig) {
+    public GatewayFilter apply(final ConfigDto configDto) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
-            log.info("MemberFilter baseMessage: {}", filterConfig.getBaseMessage());
+            log.info("MemberFilter baseMessage: {}", configDto.getBaseMessage());
 
-            if(filterConfig.isPreLogger()){
+            if(configDto.isPreLogger()){
                 log.info("MemberFilter Start: {}", request.getId());
             }
 
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                if(filterConfig.isPostLogger()){
+                if(configDto.isPostLogger()){
                     log.info("MemberFilter End: {}", response.getStatusCode());
                 }
             }));

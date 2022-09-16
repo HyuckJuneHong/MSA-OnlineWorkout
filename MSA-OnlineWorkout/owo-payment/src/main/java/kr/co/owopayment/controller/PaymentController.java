@@ -3,12 +3,29 @@ package kr.co.owopayment.controller;
 import io.swagger.annotations.ApiOperation;
 import kr.co.owopayment.domain.dto.PaymentDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/gateway/payments")
+@RequestMapping("/owo-payment")
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentController {
+
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "Welcome owo-payment.";
+    }
+    @GetMapping("/message")
+    public String message(@RequestHeader("payment-request") String header){
+        log.info(header);
+        return "Hello World in owo-payment";
+    }
+    @GetMapping("/check")
+    public String check(){
+        return "Hi, Payment Service Check";
+    }
+
 
     @ApiOperation("상품 등록")
     @PostMapping("/create")

@@ -5,16 +5,32 @@ import kr.co.owocommon.error.model.ResponseFormat;
 import kr.co.owomember.domain.dto.MemberDto;
 import kr.co.owomember.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/gateway/members")
+@RequestMapping("/owo-member")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "Welcome owo-member.";
+    }
+    @GetMapping("/message")
+    public String message(@RequestHeader("member-request") String header){
+        log.info(header);
+        return "Hello World in owo-member";
+    }
+    @GetMapping("/check")
+    public String check(){
+        return "Hi, Member Service Check";
+    }
 
     @ApiOperation("login")
     @PostMapping("/login")

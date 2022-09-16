@@ -3,7 +3,9 @@ package kr.co.owogateway.filters;
 import kr.co.owogateway.config.ConfigDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -16,30 +18,32 @@ import reactor.core.publisher.Mono;
  */
 @Component
 @Slf4j
-public class GlobalFilter extends AbstractGatewayFilterFactory<ConfigDto> {
+public class LoggingFilter extends AbstractGatewayFilterFactory<ConfigDto> {
 
-    public GlobalFilter(){
+    public LoggingFilter(){
         super(ConfigDto.class);
     }
 
     @Override
     public GatewayFilter apply(final ConfigDto configDto) {
-        return (exchange,chain) ->{
+        GatewayFilter gatewayFilter = new OrderedGatewayFilter((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
             //가장 먼저 실행.
-            log.info("GlobalFilter baseMessage: {}", configDto.getBaseMessage());
+            log.info("Logging Filter baseMessage: {}", configDto.getBaseMessage());
             if(configDto.isPreLogger()) {
-                log.info("GlobalFilter Start: {}", request.getId());
+                log.info("Logging Pre Filter: {}", request.getId());
             }
 
             //가장 마지막에 실행
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 if(configDto.isPostLogger()) {
-                    log.info("GlobalFilter End:{}", response.getStatusCode());
+                    log.info("Logging Post Filter: {}", response.getStatusCode());
                 }
             }));
-        };
+        }, Ordered.HIGHEST_PRECEDENCE); //2번째 파라미터 : Filter 의 우선 순위값
+
+        return gatewayFilter;
     }
 }

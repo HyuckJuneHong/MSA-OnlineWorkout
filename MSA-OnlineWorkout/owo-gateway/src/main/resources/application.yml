@@ -1,6 +1,9 @@
 server:
   port: 8000
 
+jwt:
+  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
+
 eureka:
   instance:
     prefer-ip-address: true #Discovery? ??? ??? ?? ? IP Address? ??
@@ -18,41 +21,58 @@ spring:
       default-filters: #spring cloud gateway global filter
         - name: GlobalFilter
           args:
-            - baseMessage: Spring Cloud Gateway GlobalFilter
-              preLogger: true
-              postLogger: true
+            baseMessage: Spring Cloud Gateway GlobalFilter
+            preLogger: true
+            postLogger: true
       routes: #msa routing
-        - id: owo-member
-          uri: http://127.0.0.1:8001/
-          predicates:
-            - Path=/gateway/members/login
-            - Method=POST
-          filters:
-            - name: MemberFilter
-              args:
-                - baseMessage: Spring CLoud MemberFilter
-                  preLogger: true
-                  postLogger: true
+#        - id: owo-member
+#          uri: http://127.0.0.1:8001/
+#          predicates: #???
+#            - Path=/owo-member/login
+#            - Method=POST
+#          filters:
+#            - name: MemberFilter
+#              args:
+#                - baseMessage: Spring CLoud MemberFilter
+#                  preLogger: true
+#                  postLogger: true
+#        - id: owo-member
+#          uri: http://127.0.0.1:8001/
+#          predicates:
+#            - Path=/owo-member/**
+#            - Method=GET,PUT,DELETE
+#          filters:
+#            - name: AuthorizationHeadersFilter
+#              args:
+#                - baseMessage: Spring CLoud AuthorizationHeadersFilter
+#                  preLogger: true
+#                  postLogger: true
+#        - id: owo-payment
+#          uri: http://127.0.0.1:8002/
+#          predicates:
+#            - Path=/owo-payment/**
+#          filters:
+#            - name: PaymentFilter
+#              args:
+#                - baseMessage: Spring Cloud PaymentFilter
+#                  preLogger: true
+#                  postLogger: true
 
         - id: owo-member
-          uri: http://127.0.0.1:8001/
+          uri: lb://OWO-MEMBER  #lb => Load Balancer
           predicates:
-            - Path=/gateway/members/**
-            - Method=GET
+            - Path=/owo-member/**
           filters:
-            - name: AuthorizationHeadersFilter
-              args:
-                - baseMessage: Spring CLoud AuthorizationHeadersFilter
-                  preLogger: true
-                  postLogger: true
+            - CustomFilter
 
         - id: owo-payment
-          uri: http://127.0.0.1:8002/
+          uri: lb://OWO-PAYMENT
           predicates:
-            - Path=/gateway/payments/**
+            - Path=/owo-payment/**
           filters:
-            - name: PaymentFilter
+            - name: CustomFilter
+            - name: LoggingFilter #???? ????? ?? ?? name ?? ??.
               args:
-                - baseMessage: Spring Cloud PaymentFilter
-                  preLogger: true
-                  postLogger: true
+                baseMessage: Hi, there.
+                preLogger: true
+                postLogger: true
