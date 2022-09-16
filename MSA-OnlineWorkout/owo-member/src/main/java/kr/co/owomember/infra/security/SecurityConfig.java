@@ -43,7 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll();
+                .antMatchers("/members/**").permitAll()
+
+                ///h2-console 접근을 위해서 추가했다. (없으면 접근 안됨)
+                .and()
+                .headers()
+                .frameOptions().disable();
 
         //TODO : JWT 설정
     }

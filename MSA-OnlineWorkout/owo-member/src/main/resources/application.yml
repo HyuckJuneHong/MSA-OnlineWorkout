@@ -1,5 +1,8 @@
+greeting:
+  message: Welcome to the Simple E-Commerce.
+
 server:
-  port: 0
+  port: 0 #Ramdom Port Number? ??
 
 spring:
   application:
@@ -34,7 +37,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://127.0.0.1:8761/eureka
 
 jwt:
   secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
