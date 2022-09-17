@@ -17,6 +17,7 @@ public interface MemberService {
 
     //get
     MemberDto.READ_MEMBER getMember(String identity);
+    MemberDto.DETAILS_MEMBER getMemberDetailsByIdentity(String identity);
 
     //delete
     void delete(MemberDto.DELETE_MEMBER member);

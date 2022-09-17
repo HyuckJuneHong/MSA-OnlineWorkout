@@ -108,6 +108,24 @@ public class MemberServiceImpl implements MemberService{
     }
 
     /**
+     * Security Authentiocation Filter Test Get Method
+     * @param identity
+     * @return
+     */
+    @Override
+    public MemberDto.DETAILS_MEMBER getMemberDetailsByIdentity(String identity) {
+        //TODO find member details
+        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+
+        return MemberDto.DETAILS_MEMBER.builder()
+                .identity(memberEntity.getIdentity())
+                .name(memberEntity.getName())
+                .memberRole(String.valueOf(memberEntity.getMemberRole()))
+                .build();
+    }
+
+    /**
      * 회원 탈퇴
      * @param member 탈퇴할 정보
      */

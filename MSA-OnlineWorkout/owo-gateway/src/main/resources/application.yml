@@ -61,8 +61,31 @@ spring:
         - id: owo-member
           uri: lb://OWO-MEMBER  #lb => Load Balancer
           predicates:
-            - Path=/owo-member/**
+            - Path=/owo-member/members/login
+            - Method=POST
           filters:
+            - RemoveRequestHeader=Cookie #Post? ?? Request Header ?? ?? ??? ??? ?? ??.
+            - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
+            - CustomFilter
+
+        - id: owo-member
+          uri: lb://OWO-MEMBER  #lb => Load Balancer
+          predicates:
+            - Path=/owo-member/members/signUp
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie #Post? ?? Request Header ?? ?? ??? ??? ?? ??.
+            - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
+            - CustomFilter
+
+        - id: owo-member
+          uri: lb://OWO-MEMBER  #lb => Load Balancer
+          predicates:
+            - Path=/owo-member/members/**
+            - Method=GET,PUT,DELETE
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
             - CustomFilter
 
         - id: owo-payment

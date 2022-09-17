@@ -3,6 +3,7 @@ package kr.co.owomember.controller;
 import kr.co.owomember.domain.vo.Greeting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class TestController {
 
-//    private final Environment environment;
+    private final Environment environment;
     private final Greeting greeting;
 
     @GetMapping("/welcome")
     public String welcome(){
         //TODO 환영 메시지.
-
 //      return environment.getProperty("greeting.message");
         return greeting.getMessage();
     }
@@ -27,12 +27,13 @@ public class TestController {
     @GetMapping("/health_check")
     public String statusCheck(){
         //TODO 작동 상태 확인.
-        return "It's Working";
+        return String.format("It's Working in OWO_MEMBER on Port %s"
+                , environment.getProperty("local.server.port"));
     }
 
     @GetMapping("/all")
     public String getAllMembers(){
-        //TODO : 잔체 사용자 조회/
+        //TODO : 전체 사용자 조회.
         return "모든 사용자 조회";
     }
 }

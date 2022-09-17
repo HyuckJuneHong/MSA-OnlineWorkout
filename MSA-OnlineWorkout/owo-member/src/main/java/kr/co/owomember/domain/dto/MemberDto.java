@@ -1,6 +1,5 @@
 package kr.co.owomember.domain.dto;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -107,5 +106,15 @@ public class MemberDto {
         //TODO : ThreadLocal 미적용 Delete
         private String identity;
         private String password;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class DETAILS_MEMBER {
+        //TODO Security Get member Test
+        private String identity;
+        private String name;
+        private String memberRole;
     }
 }
