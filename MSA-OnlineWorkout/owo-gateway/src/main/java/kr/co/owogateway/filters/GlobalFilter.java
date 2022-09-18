@@ -1,6 +1,6 @@
 package kr.co.owogateway.filters;
 
-import kr.co.owogateway.config.ConfigDto;
+import kr.co.owogateway.config.dto.ConfigDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;

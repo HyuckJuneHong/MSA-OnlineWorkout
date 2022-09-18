@@ -4,14 +4,14 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
+import kr.co.owocommon.error.exception.UnauthorizedException;
 import kr.co.owocommon.error.exception.UserDefineException;
 import kr.co.owocommon.error.jwt.JwtTokenExpiredException;
 import kr.co.owocommon.error.jwt.JwtTokenInvalidException;
 import kr.co.owogateway.jwt.enums.MemberRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,10 +20,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -37,6 +37,14 @@ public class JwtProvider {
 
     final String MEMBER_IDENTITY = "identity";
     final String MEMBER_ROLE = "member_role";
+
+    /**
+     * 시크릿 키를 Base64로 인코딩을 하는 메소드.
+     */
+    @PostConstruct
+    protected void init(){
+        SECRET_KEY = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
+    }
 
     /**
      * 토큰의 유효성을 판단하는 메소드
@@ -77,18 +85,16 @@ public class JwtProvider {
         }
     }
 
-    public Optional<String> resolveToken(ServerHttpRequest request){
-        return Optional.of(request.getHeaders()
-                .get("Authorization").get(0)
-                .replace("Bearer", "").trim());
+    public void isRequestHeaders(ServerHttpRequest request){
+        if(!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)){
+            throw new UnauthorizedException();
+        }
     }
 
-    //TODO 과연 이게 필요한것일까?
-    public Mono<Void> onError(ServerWebExchange exchange, String error, HttpStatus httpStatus){
-        ServerHttpResponse response = exchange.getResponse();
-        response.setStatusCode(httpStatus);
-        log.error(error);
-        return response.setComplete();
+    public Optional<String> resolveToken(ServerHttpRequest request){
+        return Optional.ofNullable(request.getHeaders()
+                .get(HttpHeaders.AUTHORIZATION).get(0)
+                .replace("Bearer", "").trim());
     }
 
     /**

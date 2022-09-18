@@ -1,4 +1,9 @@
 package kr.co.owocommon.error.exception;
 
-public class UnauthorizedException {
+import kr.co.owocommon.error.model.ErrorCode;
+
+public class UnauthorizedException extends BusinessLogicException{
+    public UnauthorizedException() {
+        super(ErrorCode.UNAUTHORIZED_USER);
+    }
 }

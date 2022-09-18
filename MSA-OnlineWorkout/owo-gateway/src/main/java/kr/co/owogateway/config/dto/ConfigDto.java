@@ -1,4 +1,4 @@
-package kr.co.owogateway.config;
+package kr.co.owogateway.config.dto;
 
 import lombok.Data;
 

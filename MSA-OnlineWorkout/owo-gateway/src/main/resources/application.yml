@@ -86,7 +86,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
-            - CustomFilter
+            - JwtAuthorizationHeadersFilter
 
         - id: owo-payment
           uri: lb://OWO-PAYMENT

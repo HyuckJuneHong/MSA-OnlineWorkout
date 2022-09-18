@@ -4,6 +4,6 @@ import kr.co.owocommon.error.exception.BusinessLogicException;
 
 public class JwtTokenExpiredException extends BusinessLogicException {
     public JwtTokenExpiredException() {
-        super("JWT TOken Expired");
+        super("JWT Token Expired");
     }
 }

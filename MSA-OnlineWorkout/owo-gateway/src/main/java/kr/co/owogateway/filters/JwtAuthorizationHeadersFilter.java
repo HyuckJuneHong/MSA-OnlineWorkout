@@ -1,17 +1,18 @@
 package kr.co.owogateway.filters;
 
-import kr.co.owogateway.config.ConfigDto;
+import kr.co.owocommon.error.exception.UnauthorizedException;
+import kr.co.owogateway.config.dto.ConfigDto;
 import kr.co.owogateway.jwt.JwtProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
-
 @Component
+@Slf4j
 public class JwtAuthorizationHeadersFilter extends AbstractGatewayFilterFactory<ConfigDto> {
 
     private final JwtProvider jwtProvider;
@@ -21,18 +22,26 @@ public class JwtAuthorizationHeadersFilter extends AbstractGatewayFilterFactory<
         this.jwtProvider = jwtProvider;
     }
 
+    /**
+     * 사용자 Login 요청 -> Token 반
+     * 사용자가 Token 과 함께 서비스 요청 -> Header (Include Token)
+     * @param configDto
+     * @return
+     */
     @Override
     public GatewayFilter apply(ConfigDto configDto) {
         return ((exchange, chain) -> {
+            ServerHttpRequest request = exchange.getRequest();
 
-            final Optional<String> token = jwtProvider.resolveToken(exchange.getRequest());
-            if(token.isPresent()){
-                return jwtProvider.onError(exchange, "No Authorization Header", HttpStatus.UNAUTHORIZED);
+            jwtProvider.isRequestHeaders(request);
+            String token = jwtProvider.resolveToken(request)
+                    .orElseThrow(() -> new UnauthorizedException());
+
+            if(jwtProvider.isUsable(token)){
+//                Authentication authentication = jwtProvider.getAuthentication(token);
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-            if(jwtProvider.isUsable(token.get())){
-                Authentication authentication = jwtProvider.getAuthentication(token.get());
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+
             return chain.filter(exchange);
         });
     }
