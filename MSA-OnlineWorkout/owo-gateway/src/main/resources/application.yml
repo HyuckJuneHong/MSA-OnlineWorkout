@@ -25,7 +25,6 @@ spring:
             preLogger: true
             postLogger: true
       routes: #msa routing
-        -
         - id: owo-member
           uri: lb://OWO-MEMBER  #lb => Load Balancer
           predicates:
