@@ -53,8 +53,8 @@ public class MemberController {
 
     @ApiOperation("회원 정보 조회")
     @GetMapping()
-    public ResponseFormat<MemberDto.READ_MEMBER> getMember(@RequestParam("identity") String identity){
-        return ResponseFormat.ok(memberService.getMember(identity));
+    public ResponseFormat<MemberDto.READ_MEMBER> getMember(){
+        return ResponseFormat.ok(memberService.getMember());
     }
 
     @ApiOperation("회원 삭제")

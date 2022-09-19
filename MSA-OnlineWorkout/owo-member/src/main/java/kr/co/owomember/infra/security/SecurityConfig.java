@@ -42,10 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();
-//                .hasIpAddress("192.168.0.8");
-
-//      http
-//                .addFilter(getAuthenticationFilter());
 
         ///h2-console 접근을 위해서 추가했다. (없으면 접근 안됨)
         http
@@ -54,14 +50,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //TODO : JWT 설정
     }
-
-//    private AuthenticationFilter getAuthenticationFilter() throws Exception{
-//        AuthenticationFilter authenticationFilter
-//                = new AuthenticationFilter(authenticationManager(), memberService, env);
-////        authenticationFilter.setAuthenticationManager((authenticationManager())); -> 없어도 된다.
-//
-//        return authenticationFilter;
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

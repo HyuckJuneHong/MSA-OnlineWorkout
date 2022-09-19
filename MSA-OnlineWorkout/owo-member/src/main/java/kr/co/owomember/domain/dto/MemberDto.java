@@ -37,9 +37,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class RE_TOKEN{
-        //TODO : ThreadLocal 미적용 update RefreshToken
-        private String identity;
-
         @ApiModelProperty(example = "자동 로그인을 위한 refreshToken")
         private String refreshToken;
     }
@@ -74,8 +71,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class UPDATE_MEMBER{
-        //TODO : ThreadLocal 미적용 update member
-        private String identity;
         private String name;
     }
 
@@ -83,8 +78,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class UPDATE_PASSWORD{
-        //TODO : ThreadLocal 미적용 update password
-        private String identity;
         private String oldPassword;
         private String newPassword;
         private String checkPassword;
@@ -94,7 +87,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class READ_MEMBER{
-        //TODO : ThreadLocal 미적용 Read
         private String identity;
         private String name;
     }
@@ -103,8 +95,6 @@ public class MemberDto {
     @AllArgsConstructor
     @Builder
     public static class DELETE_MEMBER{
-        //TODO : ThreadLocal 미적용 Delete
-        private String identity;
         private String password;
     }
 
@@ -112,7 +102,6 @@ public class MemberDto {
     @Builder
     @AllArgsConstructor
     public static class DETAILS_MEMBER {
-        //TODO Security Get member Test
         private String identity;
         private String name;
         private String memberRole;

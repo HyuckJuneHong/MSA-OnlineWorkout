@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,10 +35,7 @@ public class JwtAuthorizationHeadersFilter extends AbstractGatewayFilterFactory<
             String token = jwtProvider.resolveToken(request)
                     .orElseThrow(() -> new UnauthorizedException());
 
-            if(jwtProvider.isUsable(token)){
-//                Authentication authentication = jwtProvider.getAuthentication(token);
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
+            jwtProvider.isUsable(token);
 
             return chain.filter(exchange);
         });

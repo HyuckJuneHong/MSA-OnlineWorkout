@@ -25,39 +25,7 @@ spring:
             preLogger: true
             postLogger: true
       routes: #msa routing
-#        - id: owo-member
-#          uri: http://127.0.0.1:8001/
-#          predicates: #???
-#            - Path=/owo-member/login
-#            - Method=POST
-#          filters:
-#            - name: MemberFilter
-#              args:
-#                - baseMessage: Spring CLoud MemberFilter
-#                  preLogger: true
-#                  postLogger: true
-#        - id: owo-member
-#          uri: http://127.0.0.1:8001/
-#          predicates:
-#            - Path=/owo-member/**
-#            - Method=GET,PUT,DELETE
-#          filters:
-#            - name: AuthorizationHeadersFilter
-#              args:
-#                - baseMessage: Spring CLoud AuthorizationHeadersFilter
-#                  preLogger: true
-#                  postLogger: true
-#        - id: owo-payment
-#          uri: http://127.0.0.1:8002/
-#          predicates:
-#            - Path=/owo-payment/**
-#          filters:
-#            - name: PaymentFilter
-#              args:
-#                - baseMessage: Spring Cloud PaymentFilter
-#                  preLogger: true
-#                  postLogger: true
-
+        -
         - id: owo-member
           uri: lb://OWO-MEMBER  #lb => Load Balancer
           predicates:

@@ -16,8 +16,8 @@ public interface MemberService {
     void updatePassword(MemberDto.UPDATE_PASSWORD password);
 
     //get
-    MemberDto.READ_MEMBER getMember(String identity);
-    MemberDto.DETAILS_MEMBER getMemberDetailsByIdentity(String identity);
+    MemberDto.READ_MEMBER getMember();
+    MemberDto.DETAILS_MEMBER getMemberDetailsByIdentity();
 
     //delete
     void delete(MemberDto.DELETE_MEMBER member);

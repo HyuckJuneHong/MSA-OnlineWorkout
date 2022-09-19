@@ -62,6 +62,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authResult) throws IOException, ServletException {
 
         String memberName = ((User)authResult.getPrincipal()).getUsername();
-        MemberDto.DETAILS_MEMBER member = memberService.getMemberDetailsByIdentity(memberName);
+        MemberDto.DETAILS_MEMBER member = memberService.getMemberDetailsByIdentity();
     }
 }

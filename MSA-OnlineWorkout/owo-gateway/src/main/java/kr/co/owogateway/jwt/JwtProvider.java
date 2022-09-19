@@ -8,25 +8,16 @@ import kr.co.owocommon.error.exception.UnauthorizedException;
 import kr.co.owocommon.error.exception.UserDefineException;
 import kr.co.owocommon.error.jwt.JwtTokenExpiredException;
 import kr.co.owocommon.error.jwt.JwtTokenInvalidException;
-import kr.co.owogateway.jwt.enums.MemberRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @Service
@@ -34,9 +25,6 @@ public class JwtProvider {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
-
-    final String MEMBER_IDENTITY = "identity";
-    final String MEMBER_ROLE = "member_role";
 
     /**
      * 시크릿 키를 Base64로 인코딩을 하는 메소드.
@@ -96,56 +84,4 @@ public class JwtProvider {
                 .get(HttpHeaders.AUTHORIZATION).get(0)
                 .replace("Bearer", "").trim());
     }
-
-    /**
-     * 토큰을 통해서 Authentication 객체를 만들어내는 메서드
-     * @param token 토큰
-     * @return 사용자 정보를 담은 UsernamePasswordAuthenticationToken 객체
-     */
-    public Authentication getAuthentication(String token){
-        UserDetails userDetails =
-                new User(findIdentityByToken(token),
-                        "",
-                        getAuthorities(MemberRole.of(findRoleByToken(token))));
-
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
-
-    /**
-     * 토큰을 이용하여 사용자 아이디를 찾는 메서드
-     * @param token 토큰
-     * @return 사용자의 아이디
-     */
-    public String findIdentityByToken(String token){
-        return (String) Jwts.parser()
-                .setSigningKey(generateKey())
-                .parseClaimsJws(token)
-                .getBody()
-                .get(MEMBER_IDENTITY);
-    }
-
-    /**
-     * 토큰을 이용하여 사용자 권한을 찾는 메서드
-     * @param token 토큰
-     * @return 사용자의 권한
-     */
-    public String findRoleByToken(String token){
-        return (String) Jwts.parser()
-                .setSigningKey(generateKey())
-                .parseClaimsJws(token)
-                .getBody()
-                .get(MEMBER_ROLE);
-    }
-
-    private Set<? extends GrantedAuthority> getAuthorities(MemberRole role) {
-        Set<GrantedAuthority> set = new HashSet<>();
-
-        if(role.equals(MemberRole.ROLE_ADMIN)){
-            set.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-        set.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
-
-        return set;
-    }
-
 }
