@@ -1,22 +1,18 @@
 package kr.co.owocommon.jwt;
 
 import io.jsonwebtoken.Jwts;
-import kr.co.owocommon.error.exception.UnauthorizedException;
 import kr.co.owocommon.error.exception.UserDefineException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
-import java.util.Optional;
 
 @Slf4j
 @Service
-public class JwtProvider {
+public class JwtProviderCommon {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;

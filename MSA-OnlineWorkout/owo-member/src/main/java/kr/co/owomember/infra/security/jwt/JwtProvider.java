@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import kr.co.owocommon.error.exception.NotFoundException;
 import kr.co.owocommon.error.exception.UserDefineException;
+import kr.co.owocommon.jwt.JwtProviderCommon;
 import kr.co.owomember.domain.entity.MemberEntity;
 import kr.co.owomember.domain.shared.enums.MemberRole;
 import kr.co.owomember.repository.MemberRepository;
@@ -34,6 +35,7 @@ public class JwtProvider {
     private final long REFRESH_EXPIRE = 1000*60*60*24*14; //2week
 
     private final MemberRepository memberRepository;
+    private final JwtProviderCommon jwtProviderCommon;
 
     /**
      * 시크릿 키를 Base64로 인코딩을 하는 메소드.
@@ -133,20 +135,8 @@ public class JwtProvider {
      * @Exception UserNotFoundException : 해당 회원을 찾을 수 없는 경우 발생하는 예외
      */
     public MemberEntity findMemberByToken(String token){
-        return memberRepository.findByIdentity(findIdentityByToken(token))
+        return memberRepository.findByIdentity(jwtProviderCommon.findIdentityByToken(token))
                 .orElseThrow(() -> new NotFoundException("MemberEntity"));
     }
 
-    /**
-     * 토큰을 이용하여 사용자 아이디를 찾는 메서드
-     * @param token 토큰
-     * @return 사용자의 아이디
-     */
-    public String findIdentityByToken(String token){
-        return (String) Jwts.parser()
-                .setSigningKey(generateKey())
-                .parseClaimsJws(token)
-                .getBody()
-                .get(MEMBER_IDENTITY);
-    }
 }

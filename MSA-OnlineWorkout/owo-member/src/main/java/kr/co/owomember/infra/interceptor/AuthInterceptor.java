@@ -1,8 +1,7 @@
 package kr.co.owomember.infra.interceptor;
 
-import kr.co.owocommon.jwt.JwtProvider;
+import kr.co.owocommon.jwt.JwtProviderCommon;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,22 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
+@RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    private JwtProvider jwtProvider;
+    private final JwtProviderCommon jwtProviderCommon;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
                              @NotNull HttpServletResponse response,
                              @NotNull Object handler){
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String token = request.getHeader(HttpHeaders.AUTHORIZATION)
+                .replace("Bearer", "").trim();
 
         if(token==null){
             return true;
         }
 
-        String identity = jwtProvider.findIdentityByToken(token);
+        String identity = jwtProviderCommon.findIdentityByToken(token);
         MemberThreadLocal.set(identity);
 
         return true;

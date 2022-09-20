@@ -8,6 +8,8 @@ import kr.co.owocommon.error.exception.UnauthorizedException;
 import kr.co.owocommon.error.exception.UserDefineException;
 import kr.co.owocommon.error.jwt.JwtTokenExpiredException;
 import kr.co.owocommon.error.jwt.JwtTokenInvalidException;
+import kr.co.owocommon.jwt.JwtProviderCommon;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

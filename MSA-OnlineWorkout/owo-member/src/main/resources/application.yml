@@ -4,9 +4,26 @@ greeting:
 server:
   port: 0 #Ramdom Port Number? ??
 
+jwt:
+  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
 spring:
   application:
     name: owo-member
+
+  redis:
+    host: localhost
+    port: 6379  #redis base port number
 
   mvc: #swagger ?? ??
     pathmatch:
@@ -28,16 +45,3 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       format_sql: true
-
-eureka:
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
-
-jwt:
-  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M

@@ -40,5 +40,4 @@ public class JwtAuthorizationHeadersFilter extends AbstractGatewayFilterFactory<
             return chain.filter(exchange);
         });
     }
-
 }

@@ -1,5 +1,6 @@
 package kr.co.owomember.infra.config;
 
+import kr.co.owocommon.jwt.JwtProviderCommon;
 import kr.co.owomember.infra.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,12 +27,17 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("members/login");
+                .excludePathPatterns("/members/login");
     }
 
     @Bean
     public AuthInterceptor authInterceptor(){
-        return new AuthInterceptor();
+        return new AuthInterceptor(jwtProviderCommon());
+    }
+
+    @Bean
+    public JwtProviderCommon jwtProviderCommon(){
+        return new JwtProviderCommon();
     }
 
 }
