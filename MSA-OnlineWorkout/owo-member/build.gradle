@@ -19,10 +19,14 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     //DB
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
+
+    //redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     //Swagger 및 Validation
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
@@ -38,8 +42,6 @@ dependencies {
 
     //Eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 //Eureka
