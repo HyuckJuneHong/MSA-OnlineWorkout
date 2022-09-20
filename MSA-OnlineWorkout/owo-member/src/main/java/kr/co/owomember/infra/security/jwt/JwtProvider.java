@@ -9,6 +9,7 @@ import kr.co.owocommon.jwt.JwtProviderCommon;
 import kr.co.owomember.domain.entity.MemberEntity;
 import kr.co.owomember.domain.shared.enums.MemberRole;
 import kr.co.owomember.repository.MemberRepository;
+import kr.co.owomember.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,7 @@ public class JwtProvider {
 
     private final MemberRepository memberRepository;
     private final JwtProviderCommon jwtProviderCommon;
+    private final RedisService redisService;
 
     /**
      * 시크릿 키를 Base64로 인코딩을 하는 메소드.
@@ -129,11 +131,12 @@ public class JwtProvider {
     public String reCreateAccessToken(String refreshToken){
         MemberEntity member = findMemberByToken(refreshToken);
 
+        redisService.checkValue(refreshToken, redisService.getValue(member.getIdentity()));
         return createAccessToken(member.getIdentity(), member.getMemberRole(), member.getName());
     }
 
     /**
-     * 토큰을 통해 MemberMstEntity 객체를 가져오는 메서드
+     * 토큰을 통해 MemberEntity 객체를 가져오는 메서드
      * @param token : 토큰
      * @return : jwt 토큰을 통해 찾은 MemberMstEntity 객체
      * @Exception UserNotFoundException : 해당 회원을 찾을 수 없는 경우 발생하는 예외

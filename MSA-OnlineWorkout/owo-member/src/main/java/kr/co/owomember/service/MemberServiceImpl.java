@@ -39,15 +39,6 @@ public class MemberServiceImpl implements MemberService{
         return new MemberDto.TOKEN(tokens[0], tokens[1]);
     }
 
-    @Override
-    public MemberDto.TOKEN reCreateAccessToken(String refreshToken) {
-        MemberEntity memberEntity = getThreadLocal();
-        redisService.checkValue(refreshToken, redisService.getValue(memberEntity.getIdentity()));
-        String[] tokens = generateToken(memberEntity);
-
-        return new MemberDto.TOKEN(tokens[0], tokens[1]);
-    }
-
     /**
      * 회원 가입 서비스
      * @param member 회원 가입에 필요한 정보

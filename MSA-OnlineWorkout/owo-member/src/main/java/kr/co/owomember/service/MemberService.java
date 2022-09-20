@@ -7,7 +7,6 @@ public interface MemberService {
 
     //login
     MemberDto.TOKEN login(MemberDto.LOGIN login);
-    MemberDto.TOKEN reCreateAccessToken(String refreshToken);
 
     //create
     void signUp(MemberDto.CREATE_MEMBER member);

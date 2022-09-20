@@ -3,6 +3,7 @@ package kr.co.owomember.controller;
 import io.swagger.annotations.ApiOperation;
 import kr.co.owocommon.error.model.ResponseFormat;
 import kr.co.owomember.domain.dto.MemberDto;
+import kr.co.owomember.infra.security.jwt.JwtProvider;
 import kr.co.owomember.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtProvider jwtProvider;
 
     @ApiOperation("login")
     @PostMapping("/login")
@@ -25,9 +27,9 @@ public class MemberController {
     }
 
     @ApiOperation("AccessToken 재발급")
-    @DeleteMapping("/refresh")
-    public ResponseFormat<MemberDto.TOKEN> reCreateAccessToken(@RequestHeader("token") String refreshToken){
-        return ResponseFormat.ok(memberService.reCreateAccessToken(refreshToken));
+    @PostMapping("/refresh")
+    public ResponseFormat<String> reCreateAccessToken(@RequestHeader("refreshToken") String refreshToken){
+        return ResponseFormat.ok(jwtProvider.reCreateAccessToken(refreshToken));
     }
 
     @ApiOperation("회원가입")
