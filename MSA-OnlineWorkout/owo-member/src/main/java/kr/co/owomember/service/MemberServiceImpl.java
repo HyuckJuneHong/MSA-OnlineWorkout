@@ -20,6 +20,7 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final RedisService redisService;
 
     /**
      * 로그인
@@ -33,21 +34,16 @@ public class MemberServiceImpl implements MemberService{
         checkEncodePassword(login.getPassword(), memberEntity.getPassword());
 
         String[] tokens = generateToken(memberEntity);
-        memberEntity.updateRefreshToken(tokens[1]);
-        memberRepository.save(memberEntity);
+        redisService.createData(memberEntity.getIdentity(), tokens[1], jwtProvider.getREFRESH_EXPIRE());
 
         return new MemberDto.TOKEN(tokens[0], tokens[1]);
     }
 
     @Override
     public MemberDto.TOKEN reCreateAccessToken(String refreshToken) {
-        String identity = MemberThreadLocal.get();
-        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
-
+        MemberEntity memberEntity = getThreadLocal();
+        redisService.checkValue(refreshToken, redisService.getValue(memberEntity.getIdentity()));
         String[] tokens = generateToken(memberEntity);
-        memberEntity.updateRefreshToken(tokens[1]);
-        memberRepository.save(memberEntity);
 
         return new MemberDto.TOKEN(tokens[0], tokens[1]);
     }
@@ -68,9 +64,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public void update(MemberDto.UPDATE_MEMBER member) {
-        String identity = MemberThreadLocal.get();
-        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        MemberEntity memberEntity = getThreadLocal();
         memberEntity.updateName(member.getName());
         memberRepository.save(memberEntity);
     }
@@ -81,10 +75,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public void updatePassword(MemberDto.UPDATE_PASSWORD password) {
-        String identity = MemberThreadLocal.get();
-        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
-
+        MemberEntity memberEntity = getThreadLocal();
         checkEncodePassword(password.getOldPassword(), memberEntity.getPassword());
         checkPassword(password.getNewPassword(), password.getCheckPassword());
         memberEntity.updatePassword(passwordEncoder.encode(password.getNewPassword()));
@@ -97,9 +88,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public MemberDto.READ_MEMBER getMember() {
-        String identity = MemberThreadLocal.get();
-        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        MemberEntity memberEntity = getThreadLocal();
 
         return MemberDto.READ_MEMBER.builder()
                 .identity(memberEntity.getIdentity())
@@ -113,9 +102,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public MemberDto.DETAILS_MEMBER getMemberDetailsByIdentity() {
-        String identity = MemberThreadLocal.get();
-        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        MemberEntity memberEntity = getThreadLocal();
 
         return MemberDto.DETAILS_MEMBER.builder()
                 .identity(memberEntity.getIdentity())
@@ -124,15 +111,20 @@ public class MemberServiceImpl implements MemberService{
                 .build();
     }
 
+    @Override
+    public MemberEntity getThreadLocal() {
+        String identity = MemberThreadLocal.get();
+        return memberRepository.findByIdentity(identity)
+                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+    }
+
     /**
      * 회원 탈퇴
      * @param member 탈퇴할 정보
      */
     @Override
     public void delete(MemberDto.DELETE_MEMBER member) {
-        String identity = MemberThreadLocal.get();
-        MemberEntity memberEntity = memberRepository.findByIdentity(identity)
-                .orElseThrow(() -> new BadRequestException("존재하지 않는 회원입니다."));
+        MemberEntity memberEntity = getThreadLocal();
         checkEncodePassword(member.getPassword(), memberEntity.getPassword());
 
         memberRepository.delete(memberEntity);

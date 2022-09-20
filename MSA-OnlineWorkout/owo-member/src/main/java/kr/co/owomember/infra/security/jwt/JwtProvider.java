@@ -34,6 +34,10 @@ public class JwtProvider {
     private final long ACCESS_EXPIRE = 1000*60*30;        //30min
     private final long REFRESH_EXPIRE = 1000*60*60*24*14; //2week
 
+    public long getREFRESH_EXPIRE() {
+        return REFRESH_EXPIRE;
+    }
+
     private final MemberRepository memberRepository;
     private final JwtProviderCommon jwtProviderCommon;
 

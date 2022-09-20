@@ -1,6 +1,7 @@
 package kr.co.owomember.service;
 
 import kr.co.owomember.domain.dto.MemberDto;
+import kr.co.owomember.domain.entity.MemberEntity;
 
 public interface MemberService {
 
@@ -18,6 +19,7 @@ public interface MemberService {
     //get
     MemberDto.READ_MEMBER getMember();
     MemberDto.DETAILS_MEMBER getMemberDetailsByIdentity();
+    MemberEntity getThreadLocal();
 
     //delete
     void delete(MemberDto.DELETE_MEMBER member);
