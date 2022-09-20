@@ -19,12 +19,20 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
+    /**
+     * @return RedisConnectionFactory : Redis와 Connection을 생성해주는 객체
+     */
     @Bean
     public RedisConnectionFactory redisConnectionFactory(){
         return new LettuceConnectionFactory(new RedisStandaloneConfiguration(redisHost, redisPort));
     }
 
-    //이 로직이 빠지면 스프링에서 조회할 때는 값이 정상으로 보이나 redis-cli로 보면 값이 이상하게 나온다.
+    /**
+     * 이 로직이 빠지면 스프링에서 조회할 때는 값이 정상으로 보이나 redis-cli로 보면 값이 이상하게 나온다.
+     * redisTemplate : Redis Server와 통신 처리
+     * @param <T>
+     * @return
+     */
     @Bean
     public <T> RedisTemplate<String, T> redisTemplate(){
         RedisTemplate<String, T> redisTemplate = new RedisTemplate<>();
