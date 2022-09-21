@@ -130,8 +130,8 @@ public class JwtProvider {
      */
     public String reCreateAccessToken(String refreshToken){
         MemberEntity member = findMemberByToken(refreshToken);
-
         redisService.checkValue(refreshToken, redisService.getValue(member.getIdentity()));
+
         return createAccessToken(member.getIdentity(), member.getMemberRole(), member.getName());
     }
 
