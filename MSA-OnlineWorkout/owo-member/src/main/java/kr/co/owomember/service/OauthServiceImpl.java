@@ -6,6 +6,7 @@ import kr.co.owomember.domain.info.GoogleInfo;
 import kr.co.owomember.domain.info.KakaoInfo;
 import kr.co.owomember.domain.info.NaverInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -26,6 +27,35 @@ public class OauthServiceImpl implements OauthService{
     final String KAKAO = "kakao";
     final String NAVER = "naver";
     final String GOOGLE = "google";
+
+    @Override
+    public OauthDto.TOKEN_READ login(OauthDto.LOGIN login) {
+        //TODO oauth login
+        return null;
+    }
+
+    @Override
+    public void saveAdditionalMemberInfo(OauthDto.CREATE create) {
+        //TODO oauth saveAdditional
+    }
+
+    @Override
+    public OauthDto.PROFILE checkProfile(ResponseEntity<String> response, String provider) {
+        //TODO oauth check profile
+        return null;
+    }
+
+    @Override
+    public OauthDto.PROFILE getProfile(String accessToken, String provider) {
+        //TODO oauth get profile
+        return null;
+    }
+
+    @Override
+    public OauthDto.TOKEN_INFO getAccessToken(OauthDto.LOGIN login) {
+        //TODO oauth get token
+        return null;
+    }
 
     @Override
     public OauthDto.REQUEST getOauthInfo(String code, String provider) {
