@@ -1,14 +1,14 @@
 package kr.co.owomember.service;
 
-import kr.co.owomember.domain.dto.OauthRequestDto;
+import kr.co.owomember.domain.dto.OauthDto;
 
 public interface OauthService {
 
     //get
-    OauthRequestDto getOauthInfo(String code, String provider);
-    OauthRequestDto kakaoInfo(String code);
-    OauthRequestDto googleInfo(String code);
-    OauthRequestDto naverInfo(String code);
+    OauthDto.REQUEST getOauthInfo(String code, String provider);
+    OauthDto.REQUEST kakaoInfo(String code);
+    OauthDto.REQUEST googleInfo(String code);
+    OauthDto.REQUEST naverInfo(String code);
     String getUrlProfile(String provider);
 
 }

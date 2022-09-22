@@ -1,7 +1,7 @@
 package kr.co.owomember.service;
 
 import kr.co.owocommon.error.exception.BadRequestException;
-import kr.co.owomember.domain.dto.OauthRequestDto;
+import kr.co.owomember.domain.dto.OauthDto;
 import kr.co.owomember.domain.info.GoogleInfo;
 import kr.co.owomember.domain.info.KakaoInfo;
 import kr.co.owomember.domain.info.NaverInfo;
@@ -28,7 +28,7 @@ public class OauthServiceImpl implements OauthService{
     final String GOOGLE = "google";
 
     @Override
-    public OauthRequestDto getOauthInfo(String code, String provider) {
+    public OauthDto.REQUEST getOauthInfo(String code, String provider) {
         if (provider.equals(KAKAO)) {
             return kakaoInfo(code);
         } else if (provider.equals(GOOGLE)) {
@@ -50,41 +50,41 @@ public class OauthServiceImpl implements OauthService{
     }
 
     @Override
-    public OauthRequestDto kakaoInfo(String code) {
+    public OauthDto.REQUEST kakaoInfo(String code) {
         LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add(GRANT, AUTHORIZATION);
         map.add(CLIENT_ID, kakaoInfo.getKakaoClientId());
         map.add(REDIRECT, kakaoInfo.getKakaoRedirect());
         map.add(CODE, code);
-        return OauthRequestDto.builder()
+        return OauthDto.REQUEST.builder()
                 .url(kakaoInfo.getKakaoUrlToken())
                 .map(map)
                 .build();
     }
 
     @Override
-    public OauthRequestDto googleInfo(String code) {
+    public OauthDto.REQUEST googleInfo(String code) {
         LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add(GRANT, AUTHORIZATION);
         map.add(CLIENT_ID, googleInfo.getGoogleClientId());
         map.add(CLIENT_SECRET, googleInfo.getGoogleClientSecret());
         map.add(REDIRECT, googleInfo.getGoogleRedirect());
         map.add(CODE, code);
-        return OauthRequestDto.builder()
+        return OauthDto.REQUEST.builder()
                 .url(googleInfo.getGoogleUrlToken())
                 .map(map)
                 .build();
     }
 
     @Override
-    public OauthRequestDto naverInfo(String code) {
+    public OauthDto.REQUEST naverInfo(String code) {
         LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add(GRANT, AUTHORIZATION);
         map.add(CLIENT_ID, naverInfo.getNaverClientId());
         map.add(CLIENT_SECRET, naverInfo.getNaverClientSecret());
         map.add(REDIRECT, naverInfo.getNaverRedirect());
         map.add(CODE, code);
-        return OauthRequestDto.builder()
+        return OauthDto.REQUEST.builder()
                 .url(naverInfo.getNaverUrlToken())
                 .map(map)
                 .build();
