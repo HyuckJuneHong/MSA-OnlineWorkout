@@ -1,14 +1,12 @@
 package kr.co.owomember.controller;
 
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import kr.co.owocommon.error.model.ResponseFormat;
 import kr.co.owomember.domain.dto.OauthDto;
 import kr.co.owomember.service.OauthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,6 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class OauthController {
 
     private final OauthService oauthService;
+
+    @ApiModelProperty("로그인 성공")
+    @GetMapping("/naver/success")
+    public String loginSuccess(){
+        return "naver login success";
+    }
+    @GetMapping("/kakao/callback")
+    public String kakaoCallback(String code){
+        return "code: " + code;
+    }
 
     @ApiOperation("카카오 회원가입")
     @PostMapping("/kakao/login/singUp")

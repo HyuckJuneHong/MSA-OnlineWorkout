@@ -18,6 +18,9 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+
   application:
     name: owo-member
 
@@ -49,9 +52,9 @@ spring:
 oauth:
   info:
     kakao:
-      client-id: cli-id
-      client-secret: cli-secret
-      redirect: redi
+      client-id: e26484aed3a35f2f7769c5a422c1120e
+      client-secret: DICBCEo1WyYjYDcb5zwc6GYIcFuAlfI7
+      redirect: http://127.0.0.1:8000/oauth/kakao/callback
       url:
         login: https://kauth.kakao.com/oauth/authorize
         token: https://kauth.kakao.com/oauth/token
@@ -66,9 +69,9 @@ oauth:
         token: https://oauth2.googleapis.com/token
         profile: https://www.googleapis.com/oauth2/v3/userinfo
     naver:
-      client-id: cli-id
-      client-secret: cli-secret
-      redirect: redi
+      client-id: SPIHVXmm4AkrmgmyMCMl
+      client-secret: 3i2oX5zrW6
+      redirect: http://127.0.0.1:8000/oauth/naver/login
       url:
         login: https://nid.naver.com/oauth2.0/authorize
         token: https://nid.naver.com/oauth2.0/token

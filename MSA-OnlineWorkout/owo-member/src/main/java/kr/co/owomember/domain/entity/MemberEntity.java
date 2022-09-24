@@ -1,6 +1,7 @@
 package kr.co.owomember.domain.entity;
 
 import kr.co.owomember.domain.dto.MemberDto;
+import kr.co.owomember.domain.dto.OauthDto;
 import kr.co.owomember.domain.shared.BaseEntity;
 import kr.co.owomember.domain.shared.enums.MemberRole;
 import lombok.AccessLevel;
@@ -27,6 +28,9 @@ public class MemberEntity extends BaseEntity {
     @Column(name = "name", length = 100)
     private String name;
 
+    @Column(name = "provider")
+    private String provider;
+
     @Column(name = "member_role")
     @Enumerated(value = EnumType.STRING)
     private MemberRole memberRole;
@@ -36,18 +40,42 @@ public class MemberEntity extends BaseEntity {
                         String password,
                         String name,
                         MemberRole memberRole) {
-
         this.identity = identity;
         this.password = password;
         this.name = name;
         this.memberRole = memberRole;
     }
 
-    public static MemberEntity of(MemberDto.CREATE_MEMBER member, PasswordEncoder passwordEncoder){
+    @Builder
+    public MemberEntity(String identity,
+                        String password,
+                        String name,
+                        String provider,
+                        MemberRole memberRole) {
+        this.identity = identity;
+        this.password = password;
+        this.name = name;
+        this.provider = provider;
+        this.memberRole = memberRole;
+    }
+
+    public static MemberEntity of(MemberDto.CREATE_MEMBER member,
+                                  PasswordEncoder passwordEncoder){
         return MemberEntity.builder()
                 .identity(member.getIdentity())
                 .password(passwordEncoder.encode(member.getPassword()))
                 .name(member.getName())
+                .memberRole(MemberRole.of(member.getMemberRole()))
+                .build();
+    }
+
+    public static MemberEntity of(OauthDto.CREATE member,
+                                  PasswordEncoder passwordEncoder){
+        return MemberEntity.builder()
+                .identity(member.getEmail())
+                .password(passwordEncoder.encode(member.getPassword()))
+                .name(member.getName())
+//                .provider(member.getProvider())
                 .memberRole(MemberRole.of(member.getMemberRole()))
                 .build();
     }

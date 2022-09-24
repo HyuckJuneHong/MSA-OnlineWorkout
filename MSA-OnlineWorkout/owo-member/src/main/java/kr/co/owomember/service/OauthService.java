@@ -6,10 +6,14 @@ import org.springframework.http.ResponseEntity;
 public interface OauthService {
 
     //login
-    OauthDto.TOKEN_READ login(OauthDto.LOGIN login);
+    OauthDto.TOKEN_READ loginKakao(String accessToken);
+    OauthDto.TOKEN_READ loginGoogle(String accessToken);
+    OauthDto.TOKEN_READ loginNaver(String accessToken);
 
     //create
-    void saveAdditionalMemberInfo(OauthDto.CREATE create);
+    void signUpKakao(OauthDto.CREATE create);
+    void signUpGoogle(OauthDto.CREATE create);
+    void signUpNaver(OauthDto.CREATE create);
 
     //common
     OauthDto.PROFILE checkProfile(ResponseEntity<String> response, String provider);
