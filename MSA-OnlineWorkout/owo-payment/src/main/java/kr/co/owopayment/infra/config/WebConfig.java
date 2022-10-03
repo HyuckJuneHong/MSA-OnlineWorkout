@@ -1,5 +1,6 @@
 package kr.co.owopayment.infra.config;
 
+import kr.co.owocommon.jwt.JwtProviderCommon;
 import kr.co.owopayment.infra.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public AuthInterceptor authInterceptor(){
-        return new AuthInterceptor();
+        return new AuthInterceptor(jwtProviderCommon());
+    }
+
+    @Bean
+    public JwtProviderCommon jwtProviderCommon(){
+        return new JwtProviderCommon();
     }
 
 }

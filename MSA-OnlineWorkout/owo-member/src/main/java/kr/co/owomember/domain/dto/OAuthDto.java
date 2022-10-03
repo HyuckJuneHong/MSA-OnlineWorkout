@@ -8,9 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.util.LinkedMultiValueMap;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
-public class OauthDto {
+public class OAuthDto {
 
     @Getter
     @Builder

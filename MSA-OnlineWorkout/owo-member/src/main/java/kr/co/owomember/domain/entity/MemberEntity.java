@@ -1,7 +1,7 @@
 package kr.co.owomember.domain.entity;
 
 import kr.co.owomember.domain.dto.MemberDto;
-import kr.co.owomember.domain.dto.OauthDto;
+import kr.co.owomember.domain.dto.OAuthDto;
 import kr.co.owomember.domain.shared.BaseEntity;
 import kr.co.owomember.domain.shared.enums.MemberRole;
 import lombok.AccessLevel;
@@ -69,7 +69,7 @@ public class MemberEntity extends BaseEntity {
                 .build();
     }
 
-    public static MemberEntity of(OauthDto.CREATE member,
+    public static MemberEntity of(OAuthDto.CREATE member,
                                   PasswordEncoder passwordEncoder){
         return MemberEntity.builder()
                 .identity(member.getEmail())

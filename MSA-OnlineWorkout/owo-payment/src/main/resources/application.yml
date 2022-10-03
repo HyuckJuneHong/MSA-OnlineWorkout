@@ -1,7 +1,13 @@
+jwt:
+  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
+
 server:
   port: 0
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+
   application:
     name: owo-payment
 

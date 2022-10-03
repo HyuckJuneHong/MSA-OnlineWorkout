@@ -40,27 +40,27 @@ public class MemberController {
     }
 
     @ApiOperation("회원 정보 수정")
-    @PutMapping("/update")
+    @PutMapping
     public ResponseFormat update(@RequestBody @Valid MemberDto.UPDATE_MEMBER member){
         memberService.update(member);
         return ResponseFormat.ok();
     }
 
     @ApiOperation("비밀번호 수정")
-    @PutMapping("/update/password")
+    @PutMapping("/password")
     public ResponseFormat updatePassword(@RequestBody @Valid MemberDto.UPDATE_PASSWORD password){
         memberService.updatePassword(password);
         return ResponseFormat.ok();
     }
 
     @ApiOperation("회원 정보 조회")
-    @GetMapping()
+    @GetMapping
     public ResponseFormat<MemberDto.READ_MEMBER> getMember(){
         return ResponseFormat.ok(memberService.getMember());
     }
 
     @ApiOperation("회원 삭제")
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseFormat deleteMember(@RequestBody @Valid MemberDto.DELETE_MEMBER member){
         memberService.delete(member);
         return ResponseFormat.ok();

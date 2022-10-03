@@ -9,7 +9,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
-@Configuration
 public class SwaggerConfig {
 
     //API 정보, 보안 컨텍스트 및 보안 체계를 포함하도록 API Docket 빈을 구성합니다.

@@ -1,6 +1,7 @@
 package kr.co.owopayment.infra.interceptor;
 
 import kr.co.owocommon.jwt.JwtProviderCommon;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
+@RequiredArgsConstructor
 public class AuthInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    private JwtProviderCommon jwtProviderCommon;
+    private final JwtProviderCommon jwtProviderCommon;
 
     @Override
     public boolean preHandle(HttpServletRequest request,
