@@ -48,6 +48,16 @@ spring:
         - id: owo-member
           uri: lb://OWO-MEMBER  #lb => Load Balancer
           predicates:
+            - Path=/owo-member/tests/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie #Post? ?? Request Header ?? ?? ??? ??? ?? ??.
+            - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
+            - CustomFilter
+
+        - id: owo-member
+          uri: lb://OWO-MEMBER  #lb => Load Balancer
+          predicates:
             - Path=/owo-member/members/**
             - Method=GET,PUT,DELETE
           filters:

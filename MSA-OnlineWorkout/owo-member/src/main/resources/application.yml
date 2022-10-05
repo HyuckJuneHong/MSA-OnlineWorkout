@@ -4,8 +4,8 @@ greeting:
 server:
   port: 0 #Ramdom Port Number? ??
 
-jwt:
-  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
+#jwt:
+#  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
 
 eureka:
   instance:

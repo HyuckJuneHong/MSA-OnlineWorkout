@@ -127,9 +127,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public void checkIdentity(String identity) {
-        if(memberRepository.existsByIdentity(identity)){
-            throw new DuplicatedException(ErrorCode.DUPLICATED_ID);
-        }
+        if(memberRepository.existsByIdentity(identity)) throw new DuplicatedException(ErrorCode.DUPLICATED_ID);
     }
 
     /**
@@ -139,9 +137,8 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public void checkPassword(String password, String checkPassword) {
-        if(!password.equals(checkPassword)){
-            throw new BusinessLogicException(ErrorCode.WRONG_PASSWORD);
-        }
+        if(!password.equals(checkPassword)) throw new BusinessLogicException(ErrorCode.WRONG_PASSWORD);
+
     }
 
     /**
@@ -151,9 +148,7 @@ public class MemberServiceImpl implements MemberService{
      */
     @Override
     public void checkEncodePassword(String password, String encodePassword) {
-        if(!passwordEncoder.matches(password, encodePassword)){
-            throw new BusinessLogicException(ErrorCode.WRONG_PASSWORD);
-        }
+        if(!passwordEncoder.matches(password, encodePassword)) throw new BusinessLogicException(ErrorCode.WRONG_PASSWORD);
     }
 
     /**
