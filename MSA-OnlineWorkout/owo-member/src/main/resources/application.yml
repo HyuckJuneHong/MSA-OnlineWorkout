@@ -5,7 +5,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: refresh, health, beans
+        include: refresh, health, beans, info
 
 server:
   port: 0 #Ramdom Port Number? ??
@@ -35,7 +35,7 @@ spring:
       name: ecommerce
 
   config:
-    import: optional:configserver:http://127.0.0.1:8888
+    import: optional:configserver:http://localhost:8888/owo-member
 
   redis:
     host: localhost

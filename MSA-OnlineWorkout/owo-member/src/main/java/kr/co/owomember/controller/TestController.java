@@ -33,11 +33,12 @@ public class TestController {
     }
 
     @GetMapping("/config")
-    public String configCehck(){
-        return String.format("It's Working in Member Service %s \n %s \n %s"
+    public String configCheck(){
+        return String.format("It's Working in Member Service %s \n %s \n %s \n %s"
                 , environment.getProperty("local.server.port")
                 , environment.getProperty("server.port")
-                , environment.getProperty("jwt.secret"));
+                , environment.getProperty("jwt.secret")
+                , environment.getProperty("jwt.description"));
     }
 
     @GetMapping("/all")
