@@ -21,10 +21,8 @@ public class AuthInterceptor implements HandlerInterceptor {
                              @NotNull Object handler){
         String token = request.getHeader(HttpHeaders.AUTHORIZATION)
                 .replace("Bearer", "").trim();
+        if(token==null) return true;
 
-        if(token==null){
-            return true;
-        }
 
         String identity = jwtProviderCommon.findIdentityByToken(token);
         MemberThreadLocal.set(identity);
@@ -37,10 +35,7 @@ public class AuthInterceptor implements HandlerInterceptor {
                            @NotNull HttpServletResponse response,
                            @NotNull Object handler,
                            ModelAndView modelAndView){
-
-        if(MemberThreadLocal.get()==null){
-            return;
-        }
+        if(MemberThreadLocal.get()==null) return;
 
         MemberThreadLocal.remove();
     }

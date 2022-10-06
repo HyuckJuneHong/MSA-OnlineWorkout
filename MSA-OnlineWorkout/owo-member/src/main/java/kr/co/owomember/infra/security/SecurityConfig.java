@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/**").permitAll();
 
         ///h2-console 접근을 위해서 추가했다. (없으면 접근 안됨)

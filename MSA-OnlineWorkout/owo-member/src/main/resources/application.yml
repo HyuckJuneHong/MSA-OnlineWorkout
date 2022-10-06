@@ -1,6 +1,12 @@
 greeting:
   message: Welcome to the Simple E-Commerce.
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
+
 server:
   port: 0 #Ramdom Port Number? ??
 
@@ -18,11 +24,18 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
+#  main:
+#    allow-bean-definition-overriding: true
 
   application:
     name: owo-member
+
+  cloud:
+    config:
+      name: ecommerce
+
+  config:
+    import: optional:configserver:http://127.0.0.1:8888
 
   redis:
     host: localhost
