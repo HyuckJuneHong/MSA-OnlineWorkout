@@ -12,6 +12,8 @@ configurations {
 
 dependencies {
     implementation project(path: ":owo-common")
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

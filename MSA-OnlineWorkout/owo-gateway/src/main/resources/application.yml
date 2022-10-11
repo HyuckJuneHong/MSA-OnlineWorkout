@@ -4,6 +4,12 @@ server:
 #jwt:
 #  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, info, httptrace
+
 eureka:
   instance:
     prefer-ip-address: true #Discovery? ??? ??? ?? ? IP Address? ??
@@ -14,6 +20,10 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: reactive
+
   application:
     name: owo-gateway
 
@@ -73,13 +83,13 @@ spring:
             - JwtAuthorizationHeadersFilter
 
         - id: owo-member
-            uri: lb://OWO-MEMBER  #lb => Load Balancer
-            predicates:
-              - Path=/owo-member/actuator/**
-              - Method=POST,GET
-            filters:
-              - RemoveRequestHeader=Cookie #Post? ?? Request Header ?? ?? ??? ??? ?? ??.
-              - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
+          uri: lb://OWO-MEMBER  #lb => Load Balancer
+          predicates:
+            - Path=/owo-member/actuator/**
+            - Method=POST,GET
+          filters:
+            - RemoveRequestHeader=Cookie #Post? ?? Request Header ?? ?? ??? ??? ?? ??.
+            - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
 
         - id: owo-payment
           uri: lb://OWO-PAYMENT
