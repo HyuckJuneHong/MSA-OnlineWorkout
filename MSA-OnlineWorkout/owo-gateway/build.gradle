@@ -26,6 +26,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
+    //config
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+
     //gateway
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 

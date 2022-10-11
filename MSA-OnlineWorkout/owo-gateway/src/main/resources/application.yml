@@ -1,8 +1,8 @@
 server:
   port: 8000
 
-jwt:
-  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
+#jwt:
+#  secret: ADBF#!@$DAOGEB@N!%^#$%$#*@K@!GDS<M
 
 eureka:
   instance:
@@ -16,7 +16,14 @@ eureka:
 spring:
   application:
     name: owo-gateway
+
+  config:
+    import: optional:configserver:http://127.0.0.1:8888
+
   cloud:
+    config:
+      name: ecommerce
+
     gateway:
       default-filters: #spring cloud gateway global filter
         - name: GlobalFilter
@@ -64,6 +71,15 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
             - JwtAuthorizationHeadersFilter
+
+        - id: owo-member
+            uri: lb://OWO-MEMBER  #lb => Load Balancer
+            predicates:
+              - Path=/owo-member/actuator/**
+              - Method=POST,GET
+            filters:
+              - RemoveRequestHeader=Cookie #Post? ?? Request Header ?? ?? ??? ??? ?? ??.
+              - RewritePath=/owo-member/(?<segment>.*), /$\{segment} #?? owo-member? ???? ??? ????.
 
         - id: owo-payment
           uri: lb://OWO-PAYMENT
