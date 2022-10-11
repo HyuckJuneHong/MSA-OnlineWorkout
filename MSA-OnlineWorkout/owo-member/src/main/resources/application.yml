@@ -30,6 +30,9 @@ spring:
   application:
     name: owo-member
 
+  profiles:
+    active: dev
+
   cloud:
     config:
       name: ecommerce
