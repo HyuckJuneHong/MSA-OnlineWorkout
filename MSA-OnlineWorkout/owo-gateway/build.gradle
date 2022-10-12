@@ -30,8 +30,8 @@ dependencies {
 
     //config
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
-//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bus-amqp'
 
     //gateway
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
