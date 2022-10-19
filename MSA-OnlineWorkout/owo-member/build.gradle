@@ -47,6 +47,9 @@ dependencies {
     //Eureka
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+    //feign
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+
     //config
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bus-amqp'

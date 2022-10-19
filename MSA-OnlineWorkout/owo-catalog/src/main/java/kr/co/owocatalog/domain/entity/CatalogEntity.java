@@ -24,20 +24,15 @@ public class CatalogEntity extends BaseEntity {
     @Column(name = "product_name", nullable = false)
     private String productName;
 
-    @Column(name = "amount")
-    private int amount;
-
     @Column(name = "price")
     private int price;
 
     @Builder
     public CatalogEntity(String productCode,
                          String productName,
-                         int amount,
                          int price) {
         this.productCode = productCode;
         this.productName = productName;
-        this.amount = amount;
         this.price = price;
     }
 }

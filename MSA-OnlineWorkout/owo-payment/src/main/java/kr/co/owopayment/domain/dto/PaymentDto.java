@@ -10,7 +10,17 @@ public class PaymentDto {
     @Builder
     @AllArgsConstructor
     public static class CREATE_PAYMENT{
-        //TODO payment create
+        private String productCode;
+
+        private int amount;
+
+        private int price;
+
+        private int totalPrice;
+
+        private String paymentCode;
+
+        private String memberIdentity;
     }
 
     @Getter
@@ -24,7 +34,17 @@ public class PaymentDto {
     @Builder
     @AllArgsConstructor
     public static class GET_PAYMENT{
-        //TODO payment get
+        private String productCode;
+
+        private int amount;
+
+        private int price;
+
+        private int totalPrice;
+
+        private String paymentCode;
+
+        private String memberIdentity;
     }
 
     @Getter
