@@ -20,8 +20,6 @@ public class TestController {
 
     @GetMapping("/welcome")
     public String welcome(){
-        //TODO 환영 메시지.
-//      return environment.getProperty("greeting.message");
         return greeting.getMessage();
     }
 
