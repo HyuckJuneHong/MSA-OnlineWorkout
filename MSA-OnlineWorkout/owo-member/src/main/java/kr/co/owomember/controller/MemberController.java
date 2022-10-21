@@ -1,15 +1,24 @@
 package kr.co.owomember.controller;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
 import kr.co.owocommon.error.model.ResponseFormat;
+import kr.co.owomember.client.PaymentServiceClient;
 import kr.co.owomember.domain.dto.MemberDto;
+import kr.co.owomember.domain.dto.PaymentDto;
 import kr.co.owomember.infra.security.jwt.JwtProvider;
 import kr.co.owomember.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/members")
@@ -18,6 +27,7 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final PaymentServiceClient paymentServiceClient;
     private final JwtProvider jwtProvider;
 
     @ApiOperation("login")
@@ -65,4 +75,15 @@ public class MemberController {
         memberService.delete(member);
         return ResponseFormat.ok();
     }
+
+    @GetMapping("/orders")
+    public ResponseFormat<List<PaymentDto.GET_PAYMENT>> getPayments(@RequestHeader(HttpHeaders.AUTHORIZATION) String headers) {
+        return ResponseFormat.ok(paymentServiceClient.getPayments(headers));
+    }
+
+    @GetMapping("/payments/welcome")
+    public ResponseFormat<String> paymentsWelcome(){
+        return ResponseFormat.ok(paymentServiceClient.welcome());
+    }
+
 }

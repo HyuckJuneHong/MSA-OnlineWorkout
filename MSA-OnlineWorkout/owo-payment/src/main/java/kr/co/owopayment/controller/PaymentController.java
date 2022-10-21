@@ -7,12 +7,14 @@ import kr.co.owopayment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping(value = "/payments")
 @RequiredArgsConstructor
 @Slf4j
 public class PaymentController {
@@ -58,8 +60,8 @@ public class PaymentController {
 
     @ApiOperation("모든 상품 정보 조회")
     @GetMapping("/all")
-    public ResponseFormat<List<PaymentDto.GET_PAYMENT>> getPayments(@RequestParam("memberIdentity") String memberIdentity){
-        return ResponseFormat.ok(paymentService.getPaymentsByMemberIdentity(memberIdentity));
+    public ResponseEntity<List<PaymentDto.GET_PAYMENT>> getPayments(){
+        return ResponseEntity.ok().body(paymentService.getPaymentsByMemberIdentity());
     }
 
     @ApiOperation("상품 삭제")

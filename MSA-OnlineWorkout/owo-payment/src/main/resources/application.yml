@@ -5,9 +5,6 @@ spring:
   application:
     name: owo-payment
 
-  main:
-    allow-bean-definition-overriding: true
-
   profiles:
     active: payment
 

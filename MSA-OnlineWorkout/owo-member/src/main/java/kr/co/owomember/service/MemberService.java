@@ -1,7 +1,11 @@
 package kr.co.owomember.service;
 
+import kr.co.owocommon.error.model.ResponseFormat;
 import kr.co.owomember.domain.dto.MemberDto;
+import kr.co.owomember.domain.dto.PaymentDto;
 import kr.co.owomember.domain.entity.MemberEntity;
+
+import java.util.List;
 
 public interface MemberService {
 
@@ -28,5 +32,4 @@ public interface MemberService {
     void checkPassword(String password, String checkPassword);
     void checkEncodePassword(String password, String encodePassword);
     void checkSignUp(MemberDto.CREATE_MEMBER member);
-
 }

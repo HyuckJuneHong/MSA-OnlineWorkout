@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -29,13 +28,13 @@ public class PaymentEntity extends BaseEntity {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "price")
+    @Column(name = "total_price")
     private int totalPrice;
 
-    @Column(name = "member_identity", nullable = false, length = 120, unique = true)
+    @Column(name = "member_identity", nullable = false, length = 120)
     private String memberIdentity;
 
-    @Column(name = "payment_code", nullable = false, length = 120, unique = true)
+    @Column(name = "payment_code", nullable = false, length = 120)
     private String paymentCode;
 
     @Builder

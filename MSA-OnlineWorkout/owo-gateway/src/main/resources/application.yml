@@ -79,11 +79,10 @@ spring:
         - id: owo-payment
           uri: lb://OWO-PAYMENT
           predicates:
-            - Path=/owo-payment/**
+            - Path=/owo-payment/payments/**
+            - Method=POST,GET
           filters:
-            - name: CustomFilter
-            - name: LoggingFilter
-              args:
-                baseMessage: Hi, there.
-                preLogger: true
-                postLogger: true
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/owo-payment/(?<segment>.*), /$\{segment}
+            - JwtAuthorizationHeadersFilter
+

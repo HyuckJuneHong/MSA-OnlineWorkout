@@ -4,6 +4,7 @@ import kr.co.owocommon.jwt.JwtProviderCommon;
 import kr.co.owopayment.infra.interceptor.AuthInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,6 +13,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private static final long MAX_AGE_SECOND = 3600;
+    private static final String[] AUTH_ARR = {
+            "/swagger/**",
+            "/v2/api-docs",
+            "/configuration/ui",
+            "/swagger-resources/**",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/webjars/**",
+            "favicon.ico"
+    };
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -27,7 +39,17 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("members/login");
+                .excludePathPatterns("/members/login")
+                .excludePathPatterns("/actuator/**")
+                .excludePathPatterns("/payments/create")
+                .excludePathPatterns("/payments/welcome")
+                .excludePathPatterns("/payments/check")
+                .excludePathPatterns(AUTH_ARR);;
+    }
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
     }
 
     @Bean

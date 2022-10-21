@@ -3,6 +3,7 @@ package kr.co.owopayment.service;
 import kr.co.owocommon.error.exception.BadRequestException;
 import kr.co.owopayment.domain.dto.PaymentDto;
 import kr.co.owopayment.domain.entity.PaymentEntity;
+import kr.co.owopayment.infra.interceptor.MemberThreadLocal;
 import kr.co.owopayment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,22 +39,22 @@ public class PaymentServiceImpl implements PaymentService{
     }
 
     @Override
-    public List<PaymentDto.GET_PAYMENT> getPaymentsByMemberIdentity(String identity) {
-        List<PaymentEntity> list = paymentRepository.findPaymentsByMemberIdentity(identity);
+    public List<PaymentDto.GET_PAYMENT> getPaymentsByMemberIdentity() {
+        List<PaymentEntity> list = paymentRepository.findPaymentsByMemberIdentity(MemberThreadLocal.get());
 
         List<PaymentDto.GET_PAYMENT> payments = new ArrayList<>();
         for(PaymentEntity paymentEntity : list){
             PaymentDto.GET_PAYMENT payment = PaymentDto.GET_PAYMENT.builder()
                     .paymentCode(paymentEntity.getPaymentCode())
-                    .paymentCode(paymentEntity.getPaymentCode())
-                    .amount(paymentEntity.getAmount())
-                    .price(paymentEntity.getPrice())
-                    .totalPrice(paymentEntity.getTotalPrice())
-                    .productCode(paymentEntity.getProductCode())
                     .memberIdentity(paymentEntity.getMemberIdentity())
+                    .price(paymentEntity.getPrice())
+                    .productCode(paymentEntity.getProductCode())
+                    .totalPrice(paymentEntity.getTotalPrice())
+                    .amount(paymentEntity.getAmount())
                     .build();
             payments.add(payment);
         }
+
         return payments;
     }
 }

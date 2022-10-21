@@ -4,7 +4,10 @@ import kr.co.owocommon.error.exception.BadRequestException;
 import kr.co.owocommon.error.exception.BusinessLogicException;
 import kr.co.owocommon.error.exception.DuplicatedException;
 import kr.co.owocommon.error.model.ErrorCode;
+import kr.co.owocommon.error.model.ResponseFormat;
+import kr.co.owomember.client.PaymentServiceClient;
 import kr.co.owomember.domain.dto.MemberDto;
+import kr.co.owomember.domain.dto.PaymentDto;
 import kr.co.owomember.domain.entity.MemberEntity;
 import kr.co.owomember.infra.interceptor.MemberThreadLocal;
 import kr.co.owomember.infra.security.jwt.JwtProvider;
@@ -12,6 +15,9 @@ import kr.co.owomember.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +27,7 @@ public class MemberServiceImpl implements MemberService{
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final RedisService redisService;
+    private final PaymentServiceClient paymentServiceClient;
 
     /**
      * 로그인

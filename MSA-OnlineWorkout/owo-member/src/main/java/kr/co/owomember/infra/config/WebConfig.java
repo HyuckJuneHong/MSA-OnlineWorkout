@@ -2,6 +2,7 @@ package kr.co.owomember.infra.config;
 
 import kr.co.owocommon.jwt.JwtProviderCommon;
 import kr.co.owomember.infra.interceptor.AuthInterceptor;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -47,6 +48,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }
